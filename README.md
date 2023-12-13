@@ -30,7 +30,7 @@ In order to run this project you need to these in installed in your device
   
 ## Installation
 
-For the run this project install dependencies run these commands on the root of the project:
+For the run this project you need to install dependencies. Run these commands on the root of the project:
 
 ```bash 
   composer install
