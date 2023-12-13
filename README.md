@@ -14,7 +14,7 @@ Users can start or sign a petite in any topics they want.
 - Forgot password page not workin right now.
 - Donations will be added.
 - Petite edit features will be added
-- 
+
 
   
 ## Dependencies
