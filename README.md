@@ -25,7 +25,7 @@ In order to run this project you need to these in installed in your device
 `NPM`
 
 `PHP`
-`Composer`
+`Composer` `MYSQL`
 
   
 ## Installation
