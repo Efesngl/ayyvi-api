@@ -1,21 +1,71 @@
 
-## TR
-### Kurulum
-### Öncelikle projenin kurulabilmesi için cihazınızda node.js npm , php , composer, ve herhangi bir mysql veritabanı olması gerekir !
-- İlk önce projenin ana dizinine girip cmd açın ve 'composer install' komutunu çalıştırarak laravelin gereksinimlerini kurun
-- Laravelin bütün gereksinimlerini kurduktan sonra proje ana dizinindeki '.env.example' adlı dosyayı '.env' olarak değiştirin. Değiştirdiğiniz dosyadaki 'DB_' kısımlarını kendi veritabanı bilgilerinize göre ayarlayın. Sonrasında proje ana dizininde bir cmd açıp 'php artisan migrate' komutunu çalıştırın. Bu komut veritabanındaki bütün tabloları sizin için oluşturacaktır.
-- Bu işlemlerden sonra proje ana dizinindeki açtığınız cmd de 'php artisan serve' yazarak backendi çalıştırabilirsiniz.
-- Sonraki adım olarak 'frontend' klasörüne gelip burdada bir cmd açın ve 'npm install veya npm i' komutunu çalıştırarak frontend için gereksinimleri indirin.
-- NPM bütün frontend gereksinimleri indirdikten sonra 'npm run dev' yazarak frontendi çalıştırabilirsiniz.
-## EN
-### Installation
-### In order to install this project you need to Node.js npm, php and composer installed in your device !
-- Firstly in the root of the project open a cmd and run the 'composer install' command. This command will install all of the laravel dependencies.
-- After install all laravel dependencies in the root of the project there is a file named '.env.exmaple' change its name to '.env' and in this file you need to configure all the segments named 'DB_' acording to your database informations. After that open a cmd in the root of the project and run 'php artisan migrate' command. This command will create all the database tables for you.
-- After all these steps run 'php artisan serve' command in the cmd that opened in the root of the project. This command will start backend.
-- As the next step open a cmd in the 'frontend' folder and run 'npm install or npm i' command. This command will install all the dependencies for frontend.
-- After npm install all the dependencies run 'npm run dev' command in the frontend folder. This command will start frontend.
+# AYYVI
+
+A project for my school that writen with laravel 10 and vue.js 3. This project isn't finished right now !
+
+Users can start or sign a petite in any topics they want.
 
 
+
+## Features that im currently working on
+
+- An admin panel will be added.
+- Api authentication will be added.
+- Forgot password page not workin right now.
+- Donations will be added.
+- Petite edit features will be added
+- 
+
+  
+## Dependencies
+
+In order to run this project you need to these in installed in your device 
+
+`Node.js`
+`NPM`
+
+`PHP`
+`Composer`
+
+  
+## Installation
+
+For the run this project install dependencies run these commands on the root of the project:
+
+```bash 
+  composer install
+```
+```bash 
+  cd frontend
+```
+```bash 
+  npm install
+```
+    
+## How to run
+
+- Install all the dependencies
+
+- Rename the '.env.exmaple' file to '.env' in the root of the project.
+- Change the 'DB_' sections in the '.env' file according to your database 
+- After that run the database migrations with:
+
+```bash
+  php artisan migrate
+```
+
+- After migration completed run this command for start backend:
+
+```bash
+  php artisan serve
+```
+
+- For the run frontend run these commands:
+```bash
+    cd frontend
+```
+```bash
+    npm run dev
+```
 
   
