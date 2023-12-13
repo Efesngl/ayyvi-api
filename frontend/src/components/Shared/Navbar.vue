@@ -39,7 +39,7 @@
     <nav class="d-block d-md-none">
         <div id="navbar">
             <div id="site-links">
-                <RouterLink to="/"><img src="../../assets/img/logo/png/lb.png" id="logo" alt="" /></RouterLink>
+                <RouterLink to="/"><img src="/assets/img/logo/png/lb.png" id="logo" alt="" /></RouterLink>
             </div>
             <div class="user-links d-flex align-items-center">
                 <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasmenu" aria-controls="offcanvasmenu">

@@ -5,7 +5,7 @@
         <div class="card mb-3" style="max-width: 50rem">
           <div class="row g-0">
             <div class="col-md-6 d-none d-md-block p-5">
-              <img src="/img/svg/undraw_sign_up_n6im (1).svg" class="h-100 w-100" alt="..." />
+              <img src="/assets/img/svg/undraw_sign_up_n6im (1).svg" class="h-100 w-100" alt="..." />
             </div>
             <div
               class="col-md-6 col-12 text-white"
@@ -13,7 +13,7 @@
             >
               <div class="card-body p-5">
                 <div class="text-center">
-                  <RouterLink to="/"><img src="/img/logo/png/lw.png" class="w-25 h-25" style="object-fit: contain" alt="" /></RouterLink>
+                  <RouterLink to="/"><img src="/assets/img/logo/png/lw.png" class="w-25 h-25" style="object-fit: contain" alt="" /></RouterLink>
                 </div>
                 <h5 class="card-title text-center">Hemen yeni bir hesap oluşturun</h5>
                 <label for="firstname">Ad</label>
