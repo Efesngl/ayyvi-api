@@ -13,7 +13,7 @@ Users can start or sign a petitions in any topics they want.
 - Api authentication will be added.
 - Forgot password page not workin right now.
 - Donations will be added.
-- Petite edit features will be added
+- Petition edit feature will be added
 
 
   
