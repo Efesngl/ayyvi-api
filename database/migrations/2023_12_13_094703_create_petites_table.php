@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('petites', function (Blueprint $table) {
+        Schema::create('petitions', function (Blueprint $table) {
             $table->integer('ID', true);
-            $table->string('petite_header');
-            $table->text('petite_content');
-            $table->integer('petite_topic')->index('petite_topic');
+            $table->string('petition_header');
+            $table->text('petition_content');
+            $table->integer('petition_topic')->index('petition_topic');
             $table->date('created_at')->useCurrent();
-            $table->text('petite_image');
+            $table->text('petition_image');
             $table->integer('creator')->index('creator');
             $table->integer('target_sign');
             $table->boolean('is_succeded')->default(false);
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('petites');
+        Schema::dropIfExists('petitions');
     }
 };

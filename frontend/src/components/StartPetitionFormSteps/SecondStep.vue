@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-75" id="start-petite-form">
+  <div class="container w-75" id="start-petition-form">
     <div class="row">
       <div class="col-12">
         <h2 class="fs-1">Lütfen kampanyanıza en uygun konu başlığını seçiniz</h2>
@@ -12,7 +12,7 @@
     </div>
     <div class="row mt-3 g-1 justify-content-between">
       <div class="col" v-for="(t, index) in topics">
-        <input @click="setTopic(t.ID)" type="radio" class="btn-check" name="topics" :id="'topic' + index" autocomplete="off" :checked="petiteInfo.petite.petiteTopic==t.ID" />
+        <input @click="setTopic(t.ID)" type="radio" class="btn-check" name="topics" :id="'topic' + index" autocomplete="off" :checked="petitionInfo.petition.petitionTopic==t.ID" />
         <label class="btn btn-outline-danger w-100 h-100" :for="'topic' + index">{{ t.topic }}</label>
       </div>
     </div>
@@ -28,13 +28,13 @@
 </template>
 
 <script>
-import { usePetiteInfo } from '../../stores/StartPetite';
+import { useStartPetition } from '../../stores/StartPetition';
 import { useUserStore } from '../../stores/UserStore';
 export default {
-  inject: ["formStep", "decStep"],
+  inject: ["decStep"],
   data(){
     return{
-      petiteInfo:usePetiteInfo(),
+      petitionInfo:useStartPetition(),
       useStore:useUserStore(),
       topics: [],
       errors:[]
@@ -45,11 +45,11 @@ export default {
   },
   methods: {
     setTopic(t) {
-      this.petiteInfo.petite.petiteTopic = t;
+      this.petitionInfo.petition.petitionTopic = t;
     },
     isTopicSelected(){
       this.errors=[]
-      if(this.petiteInfo.petite.petiteTopic==null){
+      if(this.petitionInfo.petition.petitionTopic==null){
         this.errors.push("Lütfen bir kampanya konusu seçiniz")
         return false
       }

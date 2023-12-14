@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petite-form">
+  <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petition-form">
     <div class="row">
       <div class="col-12 text-center">
         <h2 class="fs-1">Son olarak kampanyanın alması gereken hedef bir imza giriniz</h2>
@@ -28,11 +28,11 @@
 
 <script>
 import {RouterLink} from "vue-router"
-import { usePetiteInfo } from "../../stores/StartPetite";
+import { useStartPetition } from "../../stores/StartPetition";
 export default {
   data() {
     return {
-      petiteStore:usePetiteInfo(),
+      petitionStore:useStartPetition(),
       targetSign:10
     };
   },
@@ -49,10 +49,11 @@ export default {
     },
     incStep(){
       if(this.isNumberValid()){
-        this.petiteStore.petite.targetSign=this.targetSign
+        this.petitionStore.petition.targetSign=this.targetSign
         this.$emit("incStepOk")
       }
     }
   },
 };
 </script>
+../../stores/StartPetition

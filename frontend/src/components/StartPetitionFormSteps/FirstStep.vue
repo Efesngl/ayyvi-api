@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid w-75" id="start-petite-form">
+  <div class="container-fluid w-75" id="start-petition-form">
     <div class="row">
       <div class="col-12">
         <h2 class="fs-1">Değişim için birlikte adım atalım</h2>
@@ -10,14 +10,14 @@
         <small class="fs-5">Bir kampanya türü seçin</small>
       </div>
     </div>
-    <div class="row" v-if="errors.petiteNotSelected">
+    <div class="row" v-if="errors.petitionNotSelected">
       <div class="col-12">
         <span class="text-danger">Lütfen bir kampanya türü seçiniz !</span>
       </div>
     </div>
     <div class="row gap-2 gap-md-0 mt-3">
-      <div class="col-md-4 col-12" v-for="pt in petiteTypes">
-        <div class="petite-type text-center" :class="{ 'selected-petite-type': pt.selected }" @click="selectPetiteType(pt)">
+      <div class="col-md-4 col-12" v-for="pt in petitionTypes">
+        <div class="petition-type text-center" :class="{ 'selected-petition-type': pt.selected }" @click="selectpetitionType(pt)">
           <div class="row">
             <div class="col-12">
               <span v-html="pt.icon"></span>
@@ -31,15 +31,15 @@
         </div>
       </div>
     </div>
-    <div class="row mt-3" v-if="petiteInfo.petite.petiteType == 1">
+    <div class="row mt-3" v-if="petitionInfo.petition.petitionType == 1">
       <div class="col-12">
         <label for="location"><small>Kampanyanın etkileyeceği yer</small></label>
-        <div class="row" v-if="errors.petiteLocationNotSelected">
+        <div class="row" v-if="errors.petitionLocationNotSelected">
           <div class="col-12">
             <span class="text-danger"> Lütfen kampanyayın etkileyeceği alanı giriniz ! </span>
           </div>
         </div>
-        <input type="text" class="form-control" name="location" v-model="petiteInfo.petite.petiteLocation" id="petiteLocation" />
+        <input type="text" class="form-control" name="location" v-model="petitionInfo.petition.petitionLocation" id="petitionLocation" />
       </div>
     </div>
     <div class="row mt-3 justify-content-center">
@@ -51,12 +51,12 @@
 </template>
 
 <script>
-import { usePetiteInfo } from '../../stores/StartPetite';
+import { useStartPetition } from '../../stores/StartPetition';
 export default {
   data() {
     return {
-      petiteInfo:usePetiteInfo(),
-      petiteTypes: [
+      petitionInfo:useStartPetition(),
+      petitionTypes: [
         {
           typeID: 1,
           type: "Yerel",
@@ -77,60 +77,60 @@ export default {
         },
       ],
       errors: {
-        petiteNotSelected: false,
-        petiteLocationNotSelected: false,
+        petitionNotSelected: false,
+        petitionLocationNotSelected: false,
       },
     };
   },
   beforeMount() {
-    if (this.petiteInfo.petite.petiteType != null) {
-      for (const pts of this.petiteTypes) {
-        if (pts.typeID == this.petiteInfo.petite.petiteType) {
+    if (this.petitionInfo.petition.petitionType != null) {
+      for (const pts of this.petitionTypes) {
+        if (pts.typeID == this.petitionInfo.petition.petitionType) {
           pts.selected = true;
         }
       }
     }
   },
   methods: {
-    selectPetiteType(pt) {
+    selectpetitionType(pt) {
       if (!pt.selected) {
-        this.petiteTypes.forEach((pt) => {
+        this.petitionTypes.forEach((pt) => {
           pt.selected = false;
         });
-        if (pt.tpyeID != 1 && this.petiteInfo.petite.petiteLocation != null) {
-          this.petiteInfo.petite.petiteLocation = null;
+        if (pt.tpyeID != 1 && this.petitionInfo.petition.petitionLocation != null) {
+          this.petitionInfo.petition.petitionLocation = null;
         }
-        this.petiteInfo.petite.petiteType = pt.typeID;
+        this.petitionInfo.petition.petitionType = pt.typeID;
       } else {
-        this.petiteInfo.petite.petiteType = null;
+        this.petitionInfo.petition.petitionType = null;
       }
       pt.selected = !pt.selected;
     },
-    isPetiteTypeSelected() {
-      if (this.petiteInfo.petite.petiteType == null) {
-        this.errors.petiteNotSelected = true;
+    ispetitionTypeSelected() {
+      if (this.petitionInfo.petition.petitionType == null) {
+        this.errors.petitionNotSelected = true;
         return false;
       }
       return true;
     },
-    isPetiteLocationSelected() {
-      if (this.petiteInfo.petite.petiteLocation == null || this.petiteInfo.petite.petiteLocation == "") {
-        this.errors.petiteLocationNotSelected = true;
+    ispetitionLocationSelected() {
+      if (this.petitionInfo.petition.petitionLocation == null || this.petitionInfo.petition.petitionLocation == "") {
+        this.errors.petitionLocationNotSelected = true;
         return false;
       }
       return true;
     },
     checkErrors() {
       this.errors = {
-        petiteNotSelected: false,
-        petiteLocationNotSelected: false,
+        petitionNotSelected: false,
+        petitionLocationNotSelected: false,
       };
-      if (!this.isPetiteTypeSelected()) {
+      if (!this.ispetitionTypeSelected()) {
         return false;
       }
-      if (this.isPetiteTypeSelected() && this.petiteInfo.petite.petiteType == 1) {
+      if (this.ispetitionTypeSelected() && this.petitionInfo.petition.petitionType == 1) {
         console.log("pt 1 seçili");
-        if (!this.isPetiteLocationSelected()) {
+        if (!this.ispetitionLocationSelected()) {
           return false;
         }
       }

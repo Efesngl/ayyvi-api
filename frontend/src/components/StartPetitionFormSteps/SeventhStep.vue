@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petite-form" v-if="userStore.isLogged">
+    <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petition-form" v-if="userStore.isLogged">
         <div class="row">
             <div class="col-12 text-center">
                 <h2 class="fs-1">Herşey hazır hadi kampanyanı yayınlayalım !</h2>
@@ -14,7 +14,7 @@
             </div>
         </div>
     </div>
-    <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petite-form" v-else>
+    <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petition-form" v-else>
         <div class="row">
             <div class="col-12 text-center">
                 <h2 class="fs-1">Kampanyanı yayınlamadan önce lütfen giriş yap !</h2>
@@ -35,12 +35,12 @@
 <script>
 import { RouterLink, routerKey } from "vue-router";
 import { useUserStore } from "../../stores/UserStore.js";
-import { usePetiteInfo } from "../../stores/StartPetite";
+import { useStartPetition } from "../../stores/StartPetition";
 export default {
     data() {
         return {
             userStore: useUserStore(),
-            petiteStore: usePetiteInfo(),
+            petitionStore: useStartPetition(),
         };
     },
     inject: ["decStep"],
@@ -48,13 +48,13 @@ export default {
         startThePetition() {
             this.$axios({
                 method: "post",
-                url: "/petites/newpetite",
+                url: "/petitions/newpetition",
                 data: {
-                    petite: this.petiteStore.petite,
+                    petition: this.petitionStore.petition,
                     user: this.userStore.ID,
                 },
             }).then((res) => {
-              if (res.data.petite!=undefined) {
+              if (res.data.petition!=undefined) {
                 this.$swal.fire({
                   toast: true,
                   position: "top-end",
@@ -67,7 +67,7 @@ export default {
                   icon: "success",
                   title: "Kampanyanız başarıyla yayınlandı yönlendiriliyorsunuz...",
                 }).then(()=>{
-                      this.petiteStore.$reset();
+                      this.petitionStore.$reset();
                       this.$router.push({name:"HomePage"})
                     })
                 }

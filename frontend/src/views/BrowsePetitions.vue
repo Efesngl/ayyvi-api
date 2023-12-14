@@ -36,76 +36,76 @@
     </div>
   </div>
   <div class="container h-auto" style="height: 70vh;" v-auto-animate>
-    <!-- newest petites -->
+    <!-- newest petitions -->
     <div class="container-fluid mt-5" v-if="activeTab == 'newest'">
-      <BrowsePetiteCard v-for="petite in petites" :petite="petite">
-        <template v-slot:browsePetiteCardImage>
-          <img :src="petite.petiteImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
+      <BrowsepetitionCard v-for="petition in petitions" :petition="petition">
+        <template v-slot:browsepetitionCardImage>
+          <img :src="petition.petitionImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
         </template>
-        <template v-slot:browsePetiteCardHeader>
-          <h5 class="card-title">{{ petite.petiteHeader }}</h5>
+        <template v-slot:browsepetitionCardHeader>
+          <h5 class="card-title">{{ petition.petitionHeader }}</h5>
         </template>
-        <template v-slot:browsePetiteCardContent>
-          <p class="card-text">{{ petite.petiteContent }}</p>
+        <template v-slot:browsepetitionCardContent>
+          <p class="card-text">{{ petition.petitionContent }}</p>
         </template>
-        <template v-slot:browsePetiteCardButton>
+        <template v-slot:browsepetitionCardButton>
           <div class="row mt-2">
             <div class="col-12 text-center">
-              <RouterLink :to="{ name: 'PetiteDetailPage', params: { ID: petite.ID } }" class="btn btn-danger text-decoration-none"
+              <RouterLink :to="{ name: 'PetitionDetail', params: { ID: petition.ID } }" class="btn btn-danger text-decoration-none"
                 >Kampanyaya git</RouterLink
               >
             </div>
           </div>
         </template>
-      </BrowsePetiteCard>
+      </BrowsepetitionCard>
     </div>
     <div class="container-fluid mt-5" v-if="activeTab == 'popular'">
-      <BrowsePetiteCard v-for="petite in popularPetites" :petite="petite">
-        <template v-slot:browsePetiteCardImage>
-          <img :src="petite.petiteImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
+      <BrowsepetitionCard v-for="petition in popularpetitions" :petition="petition">
+        <template v-slot:browsepetitionCardImage>
+          <img :src="petition.petitionImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
         </template>
-        <template v-slot:browsePetiteCardHeader>
-          <h5 class="card-title">{{ petite.petiteHeader }}</h5>
+        <template v-slot:browsepetitionCardHeader>
+          <h5 class="card-title">{{ petition.petitionHeader }}</h5>
         </template>
-        <template v-slot:browsePetiteCardContent>
-          <p class="card-text">{{ petite.petiteContent }}</p>
+        <template v-slot:browsepetitionCardContent>
+          <p class="card-text">{{ petition.petitionContent }}</p>
         </template>
-        <template v-slot:browsePetiteCardButton>
+        <template v-slot:browsepetitionCardButton>
           <div class="row mt-2">
             <div class="col-12 text-center">
-              <RouterLink :to="{ name: 'PetiteDetailPage', params: { ID: petite.ID } }" class="btn btn-danger text-decoration-none"
+              <RouterLink :to="{ name: 'PetitionDetail', params: { ID: petition.ID } }" class="btn btn-danger text-decoration-none"
                 >Kampanyaya git</RouterLink
               >
             </div>
           </div>
         </template>
-      </BrowsePetiteCard>
+      </BrowsepetitionCard>
     </div>
     <div class="container-fluid mt-5" v-if="activeTab == 'succeded'">
-      <BrowsePetiteCard v-for="petite in succededPetites" :petite="petite">
-        <template v-slot:browsePetiteCardImage>
-          <img :src="petite.petiteImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
+      <BrowsepetitionCard v-for="petition in succededpetitions" :petition="petition">
+        <template v-slot:browsepetitionCardImage>
+          <img :src="petition.petitionImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
         </template>
-        <template v-slot:browsePetiteCardHeader>
-          <h5 class="card-title">{{ petite.petiteHeader }}</h5>
+        <template v-slot:browsepetitionCardHeader>
+          <h5 class="card-title">{{ petition.petitionHeader }}</h5>
         </template>
-        <template v-slot:browsePetiteCardContent>
-          <p class="card-text">{{ petite.petiteContent }}</p>
+        <template v-slot:browsepetitionCardContent>
+          <p class="card-text">{{ petition.petitionContent }}</p>
         </template>
-        <template v-slot:browsePetiteCardButton>
+        <template v-slot:browsepetitionCardButton>
           <div class="row mt-2">
             <div class="col-12 text-center">
-              <RouterLink :to="{ name: 'PetiteDetailPage', params: { ID: petite.ID } }" class="btn btn-danger text-decoration-none"
+              <RouterLink :to="{ name: 'PetitionDetail', params: { ID: petition.ID } }" class="btn btn-danger text-decoration-none"
                 >Kampanyaya git</RouterLink
               >
             </div>
           </div>
         </template>
-      </BrowsePetiteCard>
+      </BrowsepetitionCard>
     </div>
     <div class="row">
       <div class="col-12 text-center">
-        <button class="btn btn-danger" @click="loadMorePetite">Daha fazla kampanya göster</button>
+        <button class="btn btn-danger" @click="loadMorepetition">Daha fazla kampanya göster</button>
       </div>
     </div>
   </div>
@@ -115,56 +115,56 @@
 <script>
 import Navbar from "../components/Shared/Navbar.vue";
 import Footer from "../components/Shared/Footer.vue";
-import BrowsePetiteCard from "../components/BrowsePetiteCard.vue";
+import BrowsepetitionCard from "../components/BrowsepetitionCard.vue";
 export default {
   components: {
     Navbar,
-    BrowsePetiteCard,
+    BrowsepetitionCard,
     Footer,
   },
   data() {
     return {
       activeTab: "newest",
-      petites: [],
-      popularPetites:[],
-      succededPetites:[],
+      petitions: [],
+      popularpetitions:[],
+      succededpetitions:[],
       offset:0
     };
   },
   async beforeMount(){
-    await this.getPetites()
-    await this.getPopularPetites()
-    await this.getSuccededPetites()
+    await this.getpetitions()
+    await this.getPopularpetitions()
+    await this.getSuccededpetitions()
   },
   methods: {
     changeActiveTab(tab) {
       if(this.activeTab!=tab) this.activeTab = tab;
     },
-    loadMorePetite() {
+    loadMorepetition() {
       this.offset+=5
     },
-    getPetites(){
+    getpetitions(){
       this.$axios({
         method:"get",
-        url:`/petites/browsepetites/newest`
+        url:`/petitions/browsepetitions/newest`
       }).then((res) => {
-        this.petites=res.data.petites
+        this.petitions=res.data.petitions
       })
     },
-    getPopularPetites(){
+    getPopularpetitions(){
       this.$axios({
         method:"get",
-        url:`/petites/browsepetites/popular`
+        url:`/petitions/browsepetitions/popular`
       }).then((res) => {
-        this.popularPetites=res.data
+        this.popularpetitions=res.data
       })
     },
-    getSuccededPetites(){
+    getSuccededpetitions(){
       this.$axios({
         method:"get",
-        url:`/petites/browsepetites/succeded`
+        url:`/petitions/browsepetitions/succeded`
       }).then((res) => {
-          this.succededPetites=res.data
+          this.succededpetitions=res.data
       })
     }
   },

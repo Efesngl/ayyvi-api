@@ -1,25 +1,25 @@
 <template>
   <Navbar></Navbar>
   <FormLayout>
-    <template v-slot:formContent v-if="petiteInfo.formStep == 1">
+    <template v-slot:formContent v-if="petitionInfo.formStep == 1">
       <FirstStep @incStepOk="incStep"></FirstStep>
     </template>
-    <template v-slot:formContent v-if="petiteInfo.formStep == 2">
+    <template v-slot:formContent v-if="petitionInfo.formStep == 2">
       <SecondStep @incStepOk="incStep"></SecondStep>
     </template>
-    <template v-slot:formContent v-if="petiteInfo.formStep == 3">
+    <template v-slot:formContent v-if="petitionInfo.formStep == 3">
       <ThirdStep @incStepOk="incStep"></ThirdStep>
     </template>
-    <template v-slot:formContent v-if="petiteInfo.formStep == 4">
+    <template v-slot:formContent v-if="petitionInfo.formStep == 4">
       <FourthStep @incStepOk="incStep"></FourthStep>
     </template>
-    <template v-slot:formContent v-if="petiteInfo.formStep == 5">
+    <template v-slot:formContent v-if="petitionInfo.formStep == 5">
       <FifthStep @incStepOk="incStep"></FifthStep>
     </template>
-    <template v-slot:formContent v-if="petiteInfo.formStep == 6">
+    <template v-slot:formContent v-if="petitionInfo.formStep == 6">
       <SixthStep @incStepOk="incStep"></SixthStep>
     </template>
-    <template v-slot:formContent v-if="petiteInfo.formStep == 7">
+    <template v-slot:formContent v-if="petitionInfo.formStep == 7">
       <SeventhStep></SeventhStep>
     </template>
   </FormLayout>
@@ -28,9 +28,9 @@
 
 <script>
 import FormLayout from "../components/FormLayout.vue";
-import * as Steps from "../components/StartPetiteFormSteps/FormStepImports.js"
+import * as Steps from "../components/StartpetitionFormSteps/FormStepImports.js"
 import { computed } from "vue";
-import { usePetiteInfo } from "../stores/StartPetite";
+import { useStartPetition } from "../stores/Startpetition";
 import Navbar from "../components/Shared/Navbar.vue";
 import Footer from "../components/Shared/Footer.vue";
 export default {
@@ -48,21 +48,21 @@ export default {
   },
   data() {
     return {
-      petiteInfo:usePetiteInfo(),
+      petitionInfo:useStartPetition(),
       formStep: 1,
     };
   },
   computed: {
     formProgress() {
-      return (this.petiteInfo.formStep / 6) * 100;
+      return (this.petitionInfo.formStep / 6) * 100;
     },
   },
   methods: {
     incStep() {
-      if (this.petiteInfo.formStep < 10) this.petiteInfo.formStep++;
+      if (this.petitionInfo.formStep < 10) this.petitionInfo.formStep++;
     },
     decStep() {
-      if (this.petiteInfo.formStep > 1) this.petiteInfo.formStep--;
+      if (this.petitionInfo.formStep > 1) this.petitionInfo.formStep--;
     },
   },
   provide() {
@@ -74,13 +74,13 @@ export default {
 };
 </script>
 <style>
-#start-petite-form {
+#start-petition-form {
   /* border: 1px solid black;
   border-radius: 1rem;
   height: max-content; */
   padding: 2rem;
 }
-.petite-type {
+.petition-type {
   width: 100%;
   height: 100%;
   border: 1px solid black;
@@ -88,11 +88,11 @@ export default {
   border-radius: 1rem;
   transition: 0.2s;
 }
-.petite-type:hover {
+.petition-type:hover {
   background-color: rgba(0, 0, 0, 0.1);
   transform: scale(1.1);
 }
-.selected-petite-type {
+.selected-petition-type {
   border-color: var(--dark-red);
   color: var(--dark-red) !important;
 }

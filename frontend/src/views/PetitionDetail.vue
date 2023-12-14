@@ -3,37 +3,37 @@
     <div class="container min-vh-100">
         <div class="row mt-3">
             <div class="col-12 text-center">
-                <h2>{{ petiteInfo.petiteHeader }}</h2>
+                <h2>{{ petitionInfo.petitionHeader }}</h2>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-8" id="petiteContent">
+            <div class="col-12 col-md-8" id="petitionContent">
                 <div class="row">
                     <div class="col-12">
-                        <img :src="petiteInfo.petiteImage" class="w-100 h-100" style="object-fit: fill" alt="" />
+                        <img :src="petitionInfo.petitionImage" class="w-100 h-100" style="object-fit: fill" alt="" />
                     </div>
                 </div>
                 <div class="row mt-5">
                     <div class="col-12 fs-5">
-                        <span v-html="petiteInfo.petiteContent"></span>
+                        <span v-html="petitionInfo.petitionContent"></span>
                     </div>
                 </div>
             </div>
-            <!-- sign petite desktop -->
+            <!-- sign petition desktop -->
             <div class="col-4 d-none d-md-block">
                 <div class="container">
                     <div class="row">
                         <div class="col-2">
-                            <img :src="petiteInfo.userPP" class="petite-creator-logo" alt="" />
+                            <img :src="petitionInfo.userPP" class="petition-creator-logo" alt="" />
                         </div>
                         <div class="col-10 fs-5 d-flex align-items-center">
-                            <span>{{ petiteInfo.creator }}</span>
+                            <span>{{ petitionInfo.creator }}</span>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col">
                             <small
-                                ><span>Oluşturulma tarihi : {{ petiteInfo.createdAt }}</span></small
+                                ><span>Oluşturulma tarihi : {{ petitionInfo.createdAt }}</span></small
                             >
                         </div>
                     </div>
@@ -42,14 +42,14 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <small> {{ petiteInfo.totalSigned }} kişi bu kampanyaya katıldı</small>
+                            <small> {{ petitionInfo.totalSigned }} kişi bu kampanyaya katıldı</small>
                         </div>
                         <div class="col-6 text-end">
-                            <small>Toplam hedef {{ petiteInfo.targetSign }} imza</small>
+                            <small>Toplam hedef {{ petitionInfo.targetSign }} imza</small>
                         </div>
                     </div>
                     <div v-if="user.isLogged">
-                        <div v-if="!petiteInfo.doesBelongToUser">
+                        <div v-if="!petitionInfo.doesBelongToUser">
                             <div class="row mt-5" v-if="!isSigned">
                                 <div class="col-12">
                                     <h6>Kampanyaya katılma nedeni (zorunlu değil)</h6>
@@ -77,10 +77,10 @@
                                     <label for="will_show" class="form-check-label">Kampanyaya katılma sebebimi bu kampanyada göster</label>
                                 </div>
                             </div>
-                            <div class="row mt-2" v-if="!petiteInfo.isSucceded">
+                            <div class="row mt-2" v-if="!petitionInfo.isSucceded">
                                 <div class="col-12" v-auto-animate>
-                                    <button class="btn btn-danger w-100" @click="signPetite" v-if="!isSigned">Kampanyaya katıl</button>
-                                    <button class="btn btn-outline-danger w-100" @click="unSignPetite" v-else>
+                                    <button class="btn btn-danger w-100" @click="signPetition" v-if="!isSigned">Kampanyaya katıl</button>
+                                    <button class="btn btn-outline-danger w-100" @click="unsignPetition" v-else>
                                         Kampanyaya katılındı <i class="bi bi-check2-circle"></i>
                                     </button>
                                 </div>
@@ -100,29 +100,29 @@
                         </div>
                     </div>
                     <div class="row mt-2">
-                        <div class="col-12 text-center" v-if="petiteInfo.isSucceded">
+                        <div class="col-12 text-center" v-if="petitionInfo.isSucceded">
                             <span class="text-danger rounded fs-3">Bu kampanya başarıya ulaştı <i class="bi bi-balloon-heart-fill"></i></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- petite sign mobile -->
+        <!-- petition sign mobile -->
         <div class="row d-block d-md-none">
             <div class="col-12">
                 <div class="container">
                     <div class="row">
                         <div class="col-2">
-                            <img :src="petiteInfo.userPP" class="petite-creator-logo" alt="" />
+                            <img :src="petitionInfo.userPP" class="petition-creator-logo" alt="" />
                         </div>
                         <div class="col-10 fs-5 d-flex align-items-center">
-                            <span>{{ petiteInfo.creator }}</span>
+                            <span>{{ petitionInfo.creator }}</span>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col">
                             <small
-                                ><span>Oluşturulma tarihi : {{ petiteInfo.createdAt }}</span></small
+                                ><span>Oluşturulma tarihi : {{ petitionInfo.createdAt }}</span></small
                             >
                         </div>
                     </div>
@@ -131,10 +131,10 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <small> {{ petiteInfo.totalSigned }} kişi bu kampanyaya katıldı</small>
+                            <small> {{ petitionInfo.totalSigned }} kişi bu kampanyaya katıldı</small>
                         </div>
                         <div class="col-6 text-end">
-                            <small>Toplam hedef {{ petiteInfo.targetSign }} imza</small>
+                            <small>Toplam hedef {{ petitionInfo.targetSign }} imza</small>
                         </div>
                     </div>
                     <div v-if="user.isLogged">
@@ -159,10 +159,10 @@
                                 <label for="will_show" class="form-check-label">Kampanyaya katılma sebebimi bu kampanyada göster</label>
                             </div>
                         </div>
-                        <div class="row mt-2" v-if="!petiteInfo.isSucceded">
+                        <div class="row mt-2" v-if="!petitionInfo.isSucceded">
                             <div class="col-12" v-auto-animate>
-                                <button class="btn btn-danger w-100" @click="signPetite" v-if="!isSigned">Kampanyaya katıl</button>
-                                <button class="btn btn-outline-danger w-100" @click="unSignPetite" v-else>
+                                <button class="btn btn-danger w-100" @click="signPetition" v-if="!isSigned">Kampanyaya katıl</button>
+                                <button class="btn btn-outline-danger w-100" @click="unsignPetition" v-else>
                                     Kampanyaya katılındı <i class="bi bi-check2-circle"></i>
                                 </button>
                             </div>
@@ -173,7 +173,7 @@
                             <div class="col-12 text-center fs-3 text-danger">Kampanyayı imzalamak için giriş yapmalısınız !</div>
                         </div>
                     </div>
-                    <div class="row" v-if="petiteInfo.isSucceded">
+                    <div class="row" v-if="petitionInfo.isSucceded">
                         <div class="col-12 text-center">
                             <span class="text-danger rounded fs-3">Bu kampanya başarıya ulaştı <i class="bi bi-balloon-heart-fill"></i></span>
                         </div>
@@ -188,7 +188,7 @@
                     <h2>Katılma nedenleri</h2>
                 </div>
             </div>
-            <PetiteCommentsCard v-for="signReason in signReasons" :comment="signReason"></PetiteCommentsCard>
+            <petitionCommentsCard v-for="signReason in signReasons" :comment="signReason"></petitionCommentsCard>
             <div class="row">
                 <div class="col-12 text-center">
                     <button class="btn btn-danger w-50" @click="seeMoreComment">Daha fazla neden göster</button>
@@ -209,18 +209,18 @@
 <script>
 import Navbar from "../components/Shared/Navbar.vue";
 import Footer from "../components/Shared/Footer.vue";
-import PetiteCommentsCard from "../components/PetiteCommentsCard.vue";
+import petitionCommentsCard from "../components/petitionCommentsCard.vue";
 import { useUserStore } from "../stores/UserStore";
 export default {
     components: {
         Navbar,
         Footer,
-        PetiteCommentsCard,
+        petitionCommentsCard,
     },
     data() {
         return {
             user: useUserStore(),
-            petiteInfo: {},
+            petitionInfo: {},
             signReason: {
                 reason: "",
                 willShown: false,
@@ -233,36 +233,36 @@ export default {
     },
     computed: {
         SignProgress() {
-            return (this.petiteInfo.totalSigned / this.petiteInfo.targetSign) * 100;
+            return (this.petitionInfo.totalSigned / this.petitionInfo.targetSign) * 100;
         },
         signReasonReaminingWord() {
             return 100 - this.signReason.reason.length;
         },
     },
     async beforeMount() {
-        await this.getPetiteDetail();
-        await this.getPetiteSignReasons();
+        await this.getPetitionDetail();
+        await this.getPetitionSignReasons();
     },
     methods: {
-        getPetiteDetail() {
+        getPetitionDetail() {
             this.$axios({
                 method: "get",
-                url: `/petites/petitedetail/${this.$route.params.ID}?user=${useUserStore().ID}`,
+                url: `/petitions/petitiondetail/${this.$route.params.ID}?user=${useUserStore().ID}&type=detail`,
             }).then((res) => {
-                this.petiteInfo = res.data.petite[0];
-                this.isSigned = res.data.petite[0]["isSigned"];
+                this.petitionInfo = res.data.petition[0];
+                this.isSigned = res.data.petition[0]["isSigned"];
             });
         },
-        getPetiteSignReasons() {
+        getPetitionSignReasons() {
             let data = {
-                petiteID: this.$route.params.ID,
+                petitionID: this.$route.params.ID,
             };
             if (this.user.isLogged) {
                 data.userID = this.user.ID;
             }
             this.$axios({
                 method: "post",
-                url: "/petites/petitesignreasons",
+                url: "/petitions/petitionsignreasons",
                 data: data,
             }).then((res) => {
                 console.log(res.data);
@@ -285,10 +285,10 @@ export default {
                 });
             }
         },
-        async signPetite() {
+        async signPetition() {
             this.signReason.isReasonEmpty = false;
             let data = {
-                petiteID: this.$route.params.ID,
+                petitionID: this.$route.params.ID,
                 userID: useUserStore().ID,
             };
             if (this.signReason.willShown == true && this.signReason.reason == "") {
@@ -303,30 +303,30 @@ export default {
             }
             await this.$axios({
                 method: "post",
-                url: "/petites/sign",
+                url: "/petitions/sign",
                 data: {
                     data: data,
                 },
             }).then((res) => {
                 if (res.status == 201) {
-                    this.petiteInfo.totalSigned++;
+                    this.petitionInfo.totalSigned++;
                     this.isSigned = true;
                 }
             });
         },
-        async unSignPetite() {
+        async unsignPetition() {
             await this.$axios({
                 method: "post",
-                url: "/petites/unsign",
+                url: "/petitions/unsign",
                 data: {
                     data: {
-                        petiteID: this.$route.params.ID,
+                        petitionID: this.$route.params.ID,
                         userID: useUserStore().ID,
                     },
                 },
             }).then((res) => {
                 if (res.status == 200) {
-                    this.petiteInfo.totalSigned--;
+                    this.petitionInfo.totalSigned--;
                     this.isSigned = false;
                 }
             });
@@ -335,12 +335,12 @@ export default {
 };
 </script>
 <style>
-.petite-comment-user-logo {
+.petition-comment-user-logo {
     max-width: 2rem;
     max-height: 2rem;
     border-radius: 50%;
 }
-.petite-creator-logo {
+.petition-creator-logo {
     max-width: 3rem;
     max-height: 3rem;
     border-radius: 50%;

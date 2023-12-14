@@ -6,7 +6,7 @@
           <div class="card-header">
             <div class="row gx-2">
               <div class="col-1" style="max-width: max-content">
-                <img :src="comment.userPP" class="petite-comment-user-logo" alt="" />
+                <img :src="comment.userPP" class="petition-comment-user-logo" alt="" />
               </div>
               <div class="col d-flex align-items-center">
                 <span>{{ comment.signer }}</span>
@@ -57,7 +57,7 @@ export default {
       }
       this.$axios({
         method:"post",
-        url:"/petites/likesignreason",
+        url:"/petitions/likesignreason",
         data:data
       }).then(res=>{
         c.isLiked = true;
@@ -73,7 +73,7 @@ export default {
       }
       this.$axios({
         method:"post",
-        url:"/petites/unlikesignreason",
+        url:"/petitions/unlikesignreason",
         data:data
       }).then(res=>{
         c.isLiked = false;

@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('petites', function (Blueprint $table) {
-            $table->foreign(['petite_topic'], 'petites_ibfk_2')->references(['ID'])->on('topics');
-            $table->foreign(['creator'], 'petites_ibfk_1')->references(['ID'])->on('users');
+        Schema::table('petitions', function (Blueprint $table) {
+            $table->foreign(['petition_topic'], 'petitions_ibfk_2')->references(['ID'])->on('topics');
+            $table->foreign(['creator'], 'petitions_ibfk_1')->references(['ID'])->on('users');
         });
     }
 
@@ -26,9 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('petites', function (Blueprint $table) {
-            $table->dropForeign('petites_ibfk_2');
-            $table->dropForeign('petites_ibfk_1');
+        Schema::table('petitions', function (Blueprint $table) {
+            $table->dropForeign('petitions_ibfk_2');
+            $table->dropForeign('petitions_ibfk_1');
         });
     }
 };

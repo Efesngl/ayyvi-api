@@ -3,10 +3,10 @@
         <div class="col sp">
             <div class="card position-relative">
                 <span class="position-absolute translate-middle-y badge rounded-pill bg-danger">Başarılı</span>
-                <img :src="sp.petiteImage" class="card-img-top sp-image" alt="..." />
+                <img :src="sp.petitionImage" class="card-img-top sp-image" alt="..." />
                 <div class="card-body">
-                    <h4 class="card-title">{{ sp.petiteHeader }}</h4>
-                    <div class="card-text">{{ sp.petiteContent }}</div>
+                    <h4 class="card-title">{{ sp.petitionHeader }}</h4>
+                    <div class="card-text">{{ sp.petitionContent }}</div>
                     <div class="row mt-3">
                         <div class="col-3">
                             <img :src="sp.creatorImage" alt="" style="object-fit: cover" class="w-100 h-100 rounded-circle" />
@@ -31,10 +31,10 @@
   }
 </script>
 <style>
-#succeded-petites .card {
+#succeded-petitions .card {
     cursor: pointer;
 }
-#succeded-petites .card-title {
+#succeded-petitions .card-title {
     transition: 0.2s;
 }
 .sp {

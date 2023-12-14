@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-75" id="start-petite-form">
+  <div class="container w-75" id="start-petition-form">
     <div class="row">
       <div class="col-12 text-center">
         <h2 class="fs-1">Kampanya başlığını yaz</h2>
@@ -7,13 +7,13 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <label for="petite-header"><small>Kampanya başlığı</small></label>
+        <label for="petition-header"><small>Kampanya başlığı</small></label>
         <div class="row" v-if="errors.length>0">
           <div class="col-12">
             <span class="text-danger">{{ errors[0] }}</span>
           </div>
         </div>
-        <input type="text" v-model="petiteInfo.petite.petiteHeader" class="form-control" name="petite-header" id="petite-header" />
+        <input type="text" v-model="petitionInfo.petition.petitionHeader" class="form-control" name="petition-header" id="petition-header" />
       </div>
     </div>
     <div class="row mt-3 justify-content-between">
@@ -28,27 +28,27 @@
 </template>
 
 <script>
-import { usePetiteInfo } from '../../stores/StartPetite'
+import { useStartPetition } from '../../stores/StartPetition'
 
   export default{
-    inject:["formStep","decStep"],
+    inject:["decStep"],
     data(){
       return {
-        petiteInfo:usePetiteInfo(),
+        petitionInfo:useStartPetition(),
         errors:[]
       }
     },
     methods:{
-      isPetiteHeaderEmpty(){
+      ispetitionHeaderEmpty(){
         this.errors=[]
-        if(this.petiteInfo.petite.petiteHeader==null || this.petiteInfo.petite.petiteHeader==""){
+        if(this.petitionInfo.petition.petitionHeader==null || this.petitionInfo.petition.petitionHeader==""){
           this.errors.push("Lütfen kampanya başlığı giriniz !")
           return true
         }
         return false
       },
       incStep(){
-        if(!this.isPetiteHeaderEmpty()){
+        if(!this.ispetitionHeaderEmpty()){
           this.$emit("incStepOk")
         }
       }

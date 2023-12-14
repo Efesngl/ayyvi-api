@@ -11,16 +11,16 @@
                     <li>
                         <RouterLink class="nav-links" active-class="active-navbar" to="/kampanyabaslat"> Kampanya başlat</RouterLink>
                     </li>
-                    <li><RouterLink class="nav-links" active-class="active-navbar" to="/browse"> Göz at</RouterLink></li>
-                    <li><RouterLink class="nav-links" active-class="active-navbar" to="/donate"> Bağışçı ol</RouterLink></li>
+                    <li><RouterLink class="nav-links" active-class="active-navbar" to="/gozat"> Göz at</RouterLink></li>
+                    <li><RouterLink class="nav-links" active-class="active-navbar" to="/bagis"> Bağışçı ol</RouterLink></li>
                 </ul>
             </div>
             <div id="user-links" v-if="!userStore.isLogged">
                 <div class="dropdown">
                     <i class="bi bi-person-circle" id="user-logo" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                     <ul class="dropdown-menu">
-                        <li><RouterLink class="dropdown-item" to="/login">Giriş yap</RouterLink></li>
-                        <li><RouterLink class="dropdown-item" to="/register">Üye ol</RouterLink></li>
+                        <li><RouterLink class="dropdown-item" to="/giris">Giriş yap</RouterLink></li>
+                        <li><RouterLink class="dropdown-item" to="/kayit">Üye ol</RouterLink></li>
                     </ul>
                 </div>
             </div>
@@ -61,15 +61,15 @@
                         <div id="site-links-offcanvas" class="d-flex flex-column">
                             <RouterLink to="/" class="navbar-offcanvas-links text-decoration-none fs-1" active-class="active-navbar-offcanvas">Ana Sayfa</RouterLink>
                             <RouterLink to="/kampanyabaslat" class="navbar-offcanvas-links text-decoration-none fs-1" active-class="active-navbar-offcanvas">Kampanya başlat</RouterLink>
-                            <RouterLink to="/browse" class="navbar-offcanvas-links text-decoration-none fs-1" active-class="active-navbar-offcanvas">Kampanyalara göz at</RouterLink>
-                            <RouterLink to="/donate" class="navbar-offcanvas-links text-decoration-none fs-1" active-class="active-navbar-offcanvas">Bağış</RouterLink>
+                            <RouterLink to="/gozat" class="navbar-offcanvas-links text-decoration-none fs-1" active-class="active-navbar-offcanvas">Kampanyalara göz at</RouterLink>
+                            <RouterLink to="/bagis" class="navbar-offcanvas-links text-decoration-none fs-1" active-class="active-navbar-offcanvas">Bağış</RouterLink>
                         </div>
                         <div id="user-links-offcavnas">
                             <div class="row fs-1" v-if="!userStore.isLogged">
-                                <div class="col-5"><RouterLink to="/login" class="text-decoration-none text-white">Giriş yap</RouterLink></div>
+                                <div class="col-5"><RouterLink to="/giris" class="text-decoration-none text-white">Giriş yap</RouterLink></div>
                                 <div class="col-2 text-center"><span>/</span></div>
                                 <div class="col-5 text-end">
-                                    <RouterLink to="/register" class="text-decoration-none text-white">Kayıt ol</RouterLink>
+                                    <RouterLink to="/kayit" class="text-decoration-none text-white">Kayıt ol</RouterLink>
                                 </div>
                             </div>
 

@@ -1,16 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "./views/Home.vue";
-import BrowsePetite from "./views/BrowsePetite.vue";
+import BrowsePetitions from "./views/BrowsePetitions.vue";
 import Donate from "./views/Donate.vue";
 import Login from "./views/Login.vue";
 import Register from "./views/Register.vue";
-import StartPetite from "./views/StartPetite.vue";
+import StartPetition from "./views/StartPetition.vue";
 import ForgotPassword from "./views/ForgotPassword.vue";
 import UserPage from "./views/UserPage.vue";
 import AccountDetails from "./views/AccountDetails.vue";
-import MyPetites from "./views/MyPetites.vue";
-import JoinedPetites from "./views/JoinedPetites.vue";
-import PetiteDetail from "./views/PetiteDetail.vue";
+import MyPetitions from "./views/MyPetitions.vue";
+import JoinedPetitions from "./views/JoinedPetitions.vue";
+import PetitionDetail from "./views/PetitionDetail.vue";
+import EditPetition from "./views/EditPetition.vue"
 import { useUserStore } from "./stores/UserStore";
 const routes = [
     {
@@ -19,39 +20,39 @@ const routes = [
         name: "HomePage",
     },
     {
-        path: "/browse",
-        component: BrowsePetite,
-        name: "BrowsePetites",
+        path: "/gozat",
+        component: BrowsePetitions,
+        name: "BrowsePetitions",
     },
     {
         path: "/kampanya/:ID",
-        component: PetiteDetail,
-        name: "PetiteDetailPage",
+        component: PetitionDetail,
+        name: "PetitionDetail",
     },
     {
-        path: "/donate",
+        path: "/bagis",
         component: Donate,
         name: "Donate",
     },
     {
-        path: "/login",
+        path: "/giris",
         component: Login,
         name: "Login",
     },
     {
-        path: "/register",
+        path: "/kayit",
         component: Register,
         name: "Register",
     },
     {
-        path: "/forgotpassword",
+        path: "/sifremiunuttum",
         component: ForgotPassword,
         name: "ForgotPassword",
     },
     {
         path: "/kampanyabaslat",
-        component: StartPetite,
-        name: "StartPetite",
+        component: StartPetition,
+        name: "StartPetition",
     },
     {
         path: "/hesabim",
@@ -65,18 +66,20 @@ const routes = [
             },
             {
                 path: "katildigimkampanyalar",
-                component: JoinedPetites,
-                name:"JoinedPetites"
+                component: JoinedPetitions,
+                name:"Joinedpetitions"
             },
             {
                 path: "baslattigimkampanyalar",
-                component: MyPetites,
-                name:"MyPetites"
+                component: MyPetitions,
+                name:"Mypetitions"
             },
         ],
     },
     {
-        path:"/editpetite"
+        path:"/kampanyaduzenle/:ID",
+        component:EditPetition,
+        name:"EditPetition"
     }
     
 ];

@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PetiteResource extends JsonResource
+class PetitionDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,15 +15,18 @@ class PetiteResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            "petitionHeader"=>$this->petition_header,
             "ID"=>$this->ID,
-            "petiteHeader"=>$this->petite_header,
-            "petiteContent"=>strip_tags($this->petite_content),
+            "petitionImage"=>$this->petition_image,
+            "petitionContent"=>$this->petition_content,
             "createdAt"=>$this->created_at,
-            "petiteImage"=>$this->petite_image,
             "targetSign"=>$this->target_sign,
-            "totalSigned"=>$this->total_signed,
+            "userPP"=>$this->user_pp,
             "creator"=>$this->creator,
-            "creatorImage"=>$this->user_pp,
+            "totalSigned"=>$this->total_signed,
+            "isSucceded"=>$this->is_succeded,
+            "isSigned"=>$this->isSigned,
+            "doesBelongToUser"=>$this->does_belong_to_user
         ];
     }
 }

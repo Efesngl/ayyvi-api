@@ -6,14 +6,14 @@
           <div class="row">
             <div class="col-12 d-flex flex-column justify-content-around align-items-center">
               <img src="/assets/img/logo/png/lw.png" class="w-50 h-50" style="object-fit: cover" alt="" />
-              <RouterLink to="/kampanyabaslat" class="btn btn-danger border" id="start-petite-button-footer">Bir kampanya başlat</RouterLink>
+              <RouterLink to="/kampanyabaslat" class="btn btn-danger border" id="start-petition-button-footer">Bir kampanya başlat</RouterLink>
             </div>
           </div>
         </div>
         <div class="col-6 col-md-4 d-flex flex-column justify-content-evenly">
           <RouterLink to="/" class="fs-3 text-white text-decoration-none footer-link">Ana Sayfa</RouterLink>
-          <RouterLink to="/browse" class="fs-3 text-white text-decoration-none footer-link">Kampanyalara göz at</RouterLink>
-          <RouterLink to="/donate" class="fs-3 text-white text-decoration-none footer-link">Bağış yap</RouterLink>
+          <RouterLink to="/gozat" class="fs-3 text-white text-decoration-none footer-link">Kampanyalara göz at</RouterLink>
+          <RouterLink to="/bagis" class="fs-3 text-white text-decoration-none footer-link">Bağış yap</RouterLink>
         </div>
         <div class="col-6 col-md-4 d-flex flex-column justify-content-evenly">
           <a href="/" class="footer-link text-white"><i class="bi bi-instagram fs-4"></i></a>
@@ -48,10 +48,10 @@ export default {
 .footer-link:hover{
   color: var(--bs-black) !important;
 }
-#start-petite-button-footer{
+#start-petition-button-footer{
   transition: 0.2s;
 }
-#start-petite-button-footer:hover{
+#start-petition-button-footer:hover{
   background: var(--bs-white);
   color: var(--bs-black);
 }

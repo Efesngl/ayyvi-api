@@ -1,14 +1,14 @@
 import { defineStore } from "pinia";
 
-export const usePetiteInfo = defineStore("petiteInfo", {
+export const useStartPetition = defineStore("startPetition", {
     state: () => ({
-        petite: {
-            petiteTopic: null,
-            petiteHeader: null,
-            petiteLocation: null,
-            petiteType: null,
-            petiteContent: null,
-            petiteImage: {
+        petition: {
+            petitionTopic: null,
+            petitionHeader: null,
+            petitionLocation: null,
+            petitionType: null,
+            petitionContent: null,
+            petitionImage: {
                 size: 0,
                 extension: null,
                 name: null,

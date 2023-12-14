@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('sign_reasons', function (Blueprint $table) {
-            $table->foreign(['reason_id'], 'sign_reasons_ibfk_1')->references(['ID'])->on('signed_petites');
+            $table->foreign(['reason_id'], 'sign_reasons_ibfk_1')->references(['ID'])->on('signed_petitions');
         });
     }
 

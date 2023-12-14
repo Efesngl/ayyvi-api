@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('signed_petites', function (Blueprint $table) {
+        Schema::create('signed_petitions', function (Blueprint $table) {
             $table->integer('ID', true);
             $table->integer('user_id')->index('user_id');
-            $table->integer('petite_id')->index('petite_id');
+            $table->integer('petition_id')->index('petition_id');
             $table->date('signed_at')->useCurrent();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('signed_petites');
+        Schema::dropIfExists('signed_petitions');
     }
 };

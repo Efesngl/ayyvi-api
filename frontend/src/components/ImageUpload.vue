@@ -8,8 +8,8 @@
       </div>
       <div class="row">
         <div class="col-12 text-center">
-          <label for="petite-image" class="btn btn-outline-danger">Görsel ekle</label>
-          <input @change="uploadFile" type="file" name="petite-image" class="form-control d-none" id="petite-image" accept=".png,.jpg,.jpeg" />
+          <label for="petition-image" class="btn btn-outline-danger">Görsel ekle</label>
+          <input @change="uploadFile" type="file" name="petition-image" class="form-control d-none" id="petition-image" accept=".png,.jpg,.jpeg" />
         </div>
       </div>
       <div class="row" v-if="errors.length > 0">
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { usePetiteInfo } from '../stores/StartPetite';
+import { useStartPetition } from '../stores/Startpetition';
 
 export default {
   props: {
@@ -54,12 +54,12 @@ export default {
         name: null,
         url: null,
       },
-      petiteInfo:usePetiteInfo()
+      petitionInfo:usepetitionInfo()
     };
   },
   beforeMount(){
-    if(this.petiteInfo.petite.petiteImage.url!=null){
-      this.imageInfo=this.petiteInfo.petite.petiteImage
+    if(this.petitionInfo.petition.petitionImage.url!=null){
+      this.imageInfo=this.petitionInfo.petition.petitionImage
       this.isImageUploaded=true
     }
   },
@@ -78,7 +78,7 @@ export default {
             (this.imageInfo.name = file.name.split(".").shift());
           // Check if file is an image
           this.isImageUploaded = true;
-          this.petiteInfo.petite.petiteImage=this.imageInfo
+          this.petitionInfo.petition.petitionImage=this.imageInfo
           let reader = new FileReader();
           reader.addEventListener("load", () => {
             this.imageInfo.url = reader.result;
@@ -103,7 +103,7 @@ export default {
         name: null,
         url: null,
       };
-      this.petiteInfo.petite.petiteImage=this.imageInfo
+      this.petitionInfo.petition.petitionImage=this.imageInfo
     },
     checkErrors(){
       if(!this.isImageUploaded) return false
@@ -134,3 +134,4 @@ export default {
   box-sizing: border-box;
 }
 </style>
+../stores/StartPetition

@@ -1,5 +1,5 @@
 <template >
-    <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petite-form">
+    <div class="mt-5 container w-75 h-100 d-flex flex-column justify-content-between" id="start-petition-form">
         <div class="row">
           <div class="col-12 text-center">
             <h2 class="fs-1">Kampanya için bir görsel ekleyin</h2>
@@ -29,7 +29,7 @@
   </template>
 
 <script>
-import { usePetiteInfo } from '../../stores/StartPetite';
+import { useStartPetition } from '../../stores/StartPetition';
 import ImageUpload from '../ImageUpload.vue';
   export default{
     components:{
@@ -37,7 +37,7 @@ import ImageUpload from '../ImageUpload.vue';
     },
     data(){
       return {
-        petiteInfo:usePetiteInfo(),
+        petitionInfo:useStartPetition(),
         errors:[]
       }
     },
@@ -58,4 +58,4 @@ import ImageUpload from '../ImageUpload.vue';
       }
     }
   }
-</script>
+</script>../../stores/StartPetition

@@ -12,7 +12,7 @@
                 </div>
                 <div class="row mt-5">
                     <div class="col-12 text-center">
-                        <RouterLink to="/kampanyabaslat" class="btn btn-outline-danger text-white border btn-lg" id="start-petite-button"
+                        <RouterLink to="/kampanyabaslat" class="btn btn-outline-danger text-white border btn-lg" id="start-petition-button"
                             >Kampanya başlat</RouterLink
                         >
                     </div>
@@ -30,9 +30,9 @@
                 <h2>Başarılı kampanyalar</h2>
             </div>
         </div>
-        <div class="row row-cols-1 row-cols-md-5 g-4 mt-2" id="succeded-petites">
-            <SuccededPetites v-for="sp in succededPetites" :sp="sp">
-            </SuccededPetites>
+        <div class="row row-cols-1 row-cols-md-5 g-4 mt-2" id="succeded-petitions">
+            <SuccededPetitions v-for="sp in succededPetitions" :sp="sp">
+            </SuccededPetitions>
         </div>
     </div>
     <hr class="border-3 mt-5" />
@@ -44,8 +44,8 @@
                     <h2>Öne çıkan kampanyalar</h2>
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-md-4 g-4 p-1 p-md-5" v-if="popularPetites.length>0">
-                <HomePagePetites v-for="(pt, i) in popularPetites" :petite="pt"></HomePagePetites>
+            <div class="row row-cols-1 row-cols-md-4 g-4 p-1 p-md-5" v-if="popularPetitions.length>0">
+                <HomePagePetitions v-for="(pt, i) in popularPetitions" :petition="pt"></HomePagePetitions>
             </div>
             <div class="row" v-else>
                 <div class="col-12 text-center">
@@ -63,42 +63,42 @@
 </template>
 
 <script>
-import HomePagePetites from "../components/HomePagePetites.vue";
-import SuccededPetites from "../components/SuccededPetites.vue";
+import HomePagePetitions from "../components/HomePagePetitions.vue";
+import SuccededPetitions from "../components/SuccededPetitions.vue";
 import Navbar from "../components/Shared/Navbar.vue";
 import Footer from "../components/Shared/Footer.vue";
 export default {
     components: {
-        HomePagePetites,
-        SuccededPetites,
+        HomePagePetitions,
+        SuccededPetitions,
         Navbar,
         Footer,
     },
     data() {
         return {
-            popularPetites: [],
-            succededPetites:[]
+            popularPetitions: [],
+            succededPetitions:[]
         };
     },
     beforeMount(){
-      this.getSuccededPetites()
-      this.getPopularPetites()
+      this.getSuccededPetitions()
+      this.getPopularPetitions()
     },
     methods: {
-        getSuccededPetites() {
+        getSuccededPetitions() {
             this.$axios({
                 method: "get",
-                url: "/petites/getsuccededpetites",
+                url: "/petitions/getsuccededpetitions",
             }).then(res=>{
-              this.succededPetites=res.data
+              this.succededPetitions=res.data
             });
         },
-        getPopularPetites(){
+        getPopularPetitions(){
             this.$axios({
                 method: "get",
-                url: "/petites/getpopularpetites",
+                url: "/petitions/getpopularpetitions",
             }).then(res=>{
-              this.popularPetites=res.data
+              this.popularPetitions=res.data
             });
         }
     },
@@ -106,7 +106,7 @@ export default {
 </script>
 
 <style>
-#start-petite-button:hover {
+#start-petition-button:hover {
     color: var(--bs-black) !important;
     --bs-btn-hover-bg: var(--bs-white);
 }
