@@ -54,7 +54,7 @@ export default {
         name: null,
         url: null,
       },
-      petitionInfo:usepetitionInfo()
+      petitionInfo:useStartPetition()
     };
   },
   beforeMount(){

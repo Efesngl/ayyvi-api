@@ -88,7 +88,7 @@ export default {
         if (pts.typeID == this.petitionInfo.petition.petitionType) {
           pts.selected = true;
         }
-      }
+      } 
     }
   },
   methods: {

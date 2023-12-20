@@ -1,118 +1,126 @@
 <template>
     <Navbar></Navbar>
-    <FormLayout>
-      <template v-slot:formContent v-if="formStep == 1">
-        <FirstStep @incStepOk="incStep"></FirstStep>
-      </template>
-      <template v-slot:formContent v-if="formStep == 2">
-        <SecondStep @incStepOk="incStep"></SecondStep>
-      </template>
-      <template v-slot:formContent v-if="formStep == 3">
-        <ThirdStep @incStepOk="incStep"></ThirdStep>
-      </template>
-      <template v-slot:formContent v-if="formStep == 4">
-        <FourthStep @incStepOk="incStep"></FourthStep>
-      </template>
-      <template v-slot:formContent v-if="formStep == 5">
-        <FifthStep @incStepOk="incStep"></FifthStep>
-      </template>
-      <template v-slot:formContent v-if="formStep == 6">
-        <SixthStep @incStepOk="incStep"></SixthStep>
-      </template>
-      <template v-slot:formContent v-if="formStep == 7">
-        <SeventhStep></SeventhStep>
-      </template>
-    </FormLayout>
+    <div class="container h-auto">
+        <h2 class="text-center">Kampanya düzenle</h2>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <label for="petition-location">Kampanya kapsamı</label>
+                <select class="form-select" name="petition-location">
+                    <option selected>Kampanya kapsamı</option>
+                    <option value="1">Yerel</option>
+                    <option value="2">Ulusal</option>
+                    <option value="3">Global</option>
+                </select>
+                <label for="petition-topic">Kampanya konusu</label>
+                <select class="form-select" name="petition-location">
+                    <option selected>Kampanya konusu</option>
+                    <option :value="t.ID" :selected="petitionInfo.petitionTopic == t.ID" v-for="t in topics">{{ t.topic }}</option>
+                </select>
+                <label for="petition-header">Kampanya başlığı</label>
+                <input type="text" v-model="petitionInfo.petitionHeader" name="petition-header" id="" class="form-control" />
+                <label for="petition-location">Hedef imza sayısı</label>
+                <input type="number" v-model="petitionInfo.targetSign" min="10" name="petition-image" id="" class="form-control" />
+                <div class="progress mt-1" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar bg-danger" :style="{'width': progress+'%'}"></div>
+                </div>
+                <span>500 kişi imzaladı</span>
+            </div>
+            <div class="col-6 d-none d-md-block">
+                <label for="petition-location">Kampanya resmi</label>
+                <ImageUpload :maxSize="5" ref="imageUploader"></ImageUpload>
+            </div>
+        </div>
+        <div class="row d-block d-md-none">
+            <div class="col-12">
+                <label for="petition-location">Kampanya resmi</label>
+                <ImageUpload :maxSize="5" ref="imageUploader"></ImageUpload>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label for="petition-content">Kampanya içeriği</label>
+                <ckeditor :editor="editor" v-model="petitionInfo.petitionContent" tag-name="petite-content" :config="editorConfig"></ckeditor>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 text-center">
+                <button class="btn btn-danger">Kaydet</button>
+            </div>
+        </div>
+    </div>
     <Footer></Footer>
-  </template>
-  
-  <script>
-  import FormLayout from "../components/FormLayout.vue";
-  import * as Steps from "../components/StartpetitionFormSteps/FormStepImports.js"
-  import { computed } from "vue";
-  import Navbar from "../components/Shared/Navbar.vue";
-  import Footer from "../components/Shared/Footer.vue";
-  export default {
+</template>
+
+<script>
+import Navbar from "../components/Shared/Navbar.vue";
+import Footer from "../components/Shared/Footer.vue";
+import "@ckeditor/ckeditor5-build-classic/build/translations/tr.js";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import CKEditor from "@ckeditor/ckeditor5-vue";
+import ImageUpload from "../components/ImageUpload.vue";
+export default {
     components: {
-      FormLayout,
-      FirstStep:Steps.FirstStep,
-      SecondStep:Steps.SecondStep,
-      ThirdStep:Steps.ThirdStep,
-      FourthStep:Steps.FourthStep,
-      FifthStep:Steps.FifthStep,
-      SixthStep:Steps.SixthStep,
-      SeventhStep:Steps.SeventhStep,
-      Navbar,
-      Footer
+        ImageUpload,
+        Navbar,
+        Footer,
+        ckeditor: CKEditor.component,
     },
     data() {
-      return {
-        petitionInfo:[],
-        formStep: 1,
-      };
+        return {
+            editor: ClassicEditor,
+            editorConfig: {
+                toolbar: {
+                    items: [
+                        "undo",
+                        "redo",
+                        "|",
+                        "heading",
+                        "|",
+                        "bold",
+                        "italic",
+                        "strikethrough",
+                        "subscript",
+                        "superscript",
+                        "code",
+                        "|",
+                        "bulletedList",
+                        "numberedList",
+                        "todoList",
+                        "outdent",
+                        "indent",
+                    ],
+                },
+                language: "tr",
+            },
+            petitionInfo: [],
+            topics: [],
+        };
     },
-    computed: {
-      formProgress() {
-        return (this.formStep / 7) * 100;
-      },
-    },
-    beforeMount(){
-      console.log(this.$route.params.ID);
-    },
-    methods: {
-      incStep() {
-        if (this.formStep < 10) this.formStep++;
-      },
-      decStep() {
-        if (this.formStep > 1) this.formStep--;
-      },
-      getpetitionInfo(){
-        this.$axios()
+    computed:{
+      progress(){
+        return (500/this.petitionInfo.targetSign)*100
       }
     },
-    provide() {
-      return {
-        decStep: this.decStep,
-        formProgress: computed(() => this.formProgress),
-      };
+    async beforeMount() {
+        await this.getPetitionInfo();
+        await this.getTopics();
     },
-  };
-  </script>
-  <style>
-  #start-petition-form {
-    /* border: 1px solid black;
-    border-radius: 1rem;
-    height: max-content; */
-    padding: 2rem;
-  }
-  .petition-type {
-    width: 100%;
-    height: 100%;
-    border: 1px solid black;
-    padding: 1rem;
-    border-radius: 1rem;
-    transition: 0.2s;
-  }
-  .petition-type:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    transform: scale(1.1);
-  }
-  .selected-petition-type {
-    border-color: var(--dark-red);
-    color: var(--dark-red) !important;
-  }
-  .v-enter-active,
-  .v-leave-active {
-    transition: 0.5s;
-  }
-  .v-enter-from,
-  .v-leave-to {
-    opacity: 0;
-  }
-  .v-enter-to,
-  .v-leave-from {
-    transform: translateX(100%);
-    opacity: 1;
-  }
-  </style>
-  
+    methods: {
+        getTopics() {
+            this.$axios.get("gettopics").then((res) => {
+                this.topics = res.data.topics;
+            });
+        },
+        getPetitionInfo() {
+            this.$axios.get(`petitions/petitiondetail/${this.$route.params.ID}?type=edit`).then((res) => {
+                this.petitionInfo = res.data.petition[0];
+            });
+        },
+    },
+};
+</script>
+<style>
+.ck-editor__editable_inline {
+    height: 25rem;
+}
+</style>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PetiteEditResource;
 use App\Http\Resources\V1\PetitionDetailResource;
 use App\Http\Resources\V1\PetitionResource;
 use App\Models\Petitions;
@@ -116,14 +117,16 @@ class PetitionController extends Controller
             ->selectRaw("if(petitions.creator={$user_id},true,false) as does_belong_to_user")
             ->where("petitions.ID",$id)
             ->get();
+            return response()->json([
+                "petition"=>PetitionDetailResource::collection($petition),
+            ],);
         }
         else{
-            
+            $petition=Petitions::where("ID",$id)->get();
+            return response()->json([
+                "petition"=>PetiteEditResource::collection($petition)
+            ]);
         }
-
-        return response()->json([
-            "petition"=>PetitionDetailResource::collection($petition),
-        ],);
     }
     public function sign_petition(Request $req){
         $input=$req->input("data");
