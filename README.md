@@ -3,7 +3,7 @@
 
 A project for my school that writen with laravel 10 and vue.js 3. This project isn't finished right now !
 
-Users can start or sign a petite in any topics they want.
+Users can start or sign a petitions in any topics they want.
 
 
 
@@ -13,7 +13,7 @@ Users can start or sign a petite in any topics they want.
 - Api authentication will be added.
 - Forgot password page not workin right now.
 - Donations will be added.
-- Petite edit features will be added
+- Petition edit feature will be added
 
 
   
