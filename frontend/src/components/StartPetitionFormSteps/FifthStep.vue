@@ -14,7 +14,7 @@
         </div>
         <div class="row">
           <div class="col-12 flex-fill h-100">
-            <ImageUpload :maxSize=5 ref="imageUploader"></ImageUpload>
+            <ImageUpload :maxSize=5 ref="imageUploader" buttontxt="Görsel ekle"></ImageUpload>
           </div>
         </div>
         <div class="row justify-content-between" >

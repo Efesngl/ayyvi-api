@@ -33,6 +33,7 @@ Route::prefix("/v1")->group(function () {
         Route::post("/likesignreason",[PetitionController::class,"like_sign_reason"]);
         Route::post("/unlikesignreason",[PetitionController::class,"unlike_sign_reason"]);
     });
+    Route::post("updatepetition",[PetitionController::class,"update_petition"]);
     Route::prefix("user")->group(function(){
         Route::post("/updateuserdetail",[UserController::class,"update_user_detail"]);
         Route::get("/getuserpetitions",[PetitionController::class,"get_user_petitions"]);
@@ -41,6 +42,11 @@ Route::prefix("/v1")->group(function () {
     Route::get("/gettopics",function(){
         return response()->json([
             "topics"=>DB::table("topics")->get()
+        ]);
+    });
+    Route::post("/deneme",function(){
+        return response()->json([
+            "deneme"=>"asd"
         ]);
     });
 });

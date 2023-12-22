@@ -12,39 +12,61 @@
                     <option value="3">Global</option>
                 </select>
                 <label for="petition-topic">Kampanya konusu</label>
-                <select class="form-select" name="petition-location">
-                    <option selected>Kampanya konusu</option>
+                <p class="text-danger" v-if="!errors.isTopicSelected">Kampanya konusu seçmek zorunludur !</p>
+                <select class="form-select" name="petition-topic" v-model="petitionInfo.petitionTopic">
+                    <option :value="0" selected>Kampanya konusu</option>
                     <option :value="t.ID" :selected="petitionInfo.petitionTopic == t.ID" v-for="t in topics">{{ t.topic }}</option>
                 </select>
                 <label for="petition-header">Kampanya başlığı</label>
+                <p class="text-danger" v-if="errors.isHeaderEmpty">Kampanya başlığı girmek zorunludur !</p>
                 <input type="text" v-model="petitionInfo.petitionHeader" name="petition-header" id="" class="form-control" />
                 <label for="petition-location">Hedef imza sayısı</label>
+                <p class="text-danger" v-if="errors.isTargetSignEmpty">Hedef imza sayısı belirlemek zorunludur !</p>
                 <input type="number" v-model="petitionInfo.targetSign" min="10" name="petition-image" id="" class="form-control" />
                 <div class="progress mt-1" role="progressbar" aria-label="Danger example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                  <div class="progress-bar bg-danger" :style="{'width': progress+'%'}"></div>
+                    <div class="progress-bar bg-danger" :style="{ width: progress + '%' }"></div>
                 </div>
-                <span>500 kişi imzaladı</span>
+                <span>{{ petitionInfo.totalSigned }} kişi imzaladı</span>
             </div>
             <div class="col-6 d-none d-md-block">
                 <label for="petition-location">Kampanya resmi</label>
-                <ImageUpload :maxSize="5" ref="imageUploader"></ImageUpload>
+                <ImageUpload :maxSize="5" ref="imageUploader" buttontxt="Görseli değiştir"></ImageUpload>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-6">
+                <div class="form-check form-switch">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        :true-value="1"
+                        :false-value="0"
+                        id="flexSwitchCheckChecked"
+                        v-model="petitionInfo.isSucceded"
+                        :checked="petitionInfo.isSucceded == 1"
+                    />
+                    <label class="form-check-label" for="flexSwitchCheckChecked">Kampanya başarılı</label>
+                </div>
             </div>
         </div>
         <div class="row d-block d-md-none">
             <div class="col-12">
                 <label for="petition-location">Kampanya resmi</label>
-                <ImageUpload :maxSize="5" ref="imageUploader"></ImageUpload>
+                <ImageUpload :maxSize="5" ref="imageUploader" buttontxt="Görseli değiştir"></ImageUpload>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <label for="petition-content">Kampanya içeriği</label>
+                <p class="text-danger" v-if="errors.isContentEmpty">Kampanya içeriği girmek zorunludur !</p>
                 <ckeditor :editor="editor" v-model="petitionInfo.petitionContent" tag-name="petite-content" :config="editorConfig"></ckeditor>
             </div>
         </div>
+
         <div class="row mt-2">
             <div class="col-12 text-center">
-                <button class="btn btn-danger">Kaydet</button>
+                <button class="btn btn-danger" @click="updatePetition">Kaydet</button>
             </div>
         </div>
     </div>
@@ -58,6 +80,7 @@ import "@ckeditor/ckeditor5-build-classic/build/translations/tr.js";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ImageUpload from "../components/ImageUpload.vue";
+import { computed } from "vue";
 export default {
     components: {
         ImageUpload,
@@ -70,36 +93,18 @@ export default {
             editor: ClassicEditor,
             editorConfig: {
                 toolbar: {
-                    items: [
-                        "undo",
-                        "redo",
-                        "|",
-                        "heading",
-                        "|",
-                        "bold",
-                        "italic",
-                        "strikethrough",
-                        "subscript",
-                        "superscript",
-                        "code",
-                        "|",
-                        "bulletedList",
-                        "numberedList",
-                        "todoList",
-                        "outdent",
-                        "indent",
-                    ],
+                    items: ["undo", "redo", "|", "heading", "|", "bold", "italic", "|", "bulletedList", "numberedList", "outdent", "indent"],
                 },
                 language: "tr",
             },
             petitionInfo: [],
             topics: [],
+            errors: {
+                isTopicSelected: true,
+                isHeaderEmpty: false,
+                isContentEmpty: false,
+            },
         };
-    },
-    computed:{
-      progress(){
-        return (500/this.petitionInfo.targetSign)*100
-      }
     },
     async beforeMount() {
         await this.getPetitionInfo();
@@ -115,6 +120,93 @@ export default {
             this.$axios.get(`petitions/petitiondetail/${this.$route.params.ID}?type=edit`).then((res) => {
                 this.petitionInfo = res.data.petition[0];
             });
+        },
+        isTopicSelected() {
+            if (this.petitionInfo.petitionTopic == 0) {
+                this.errors.isTopicSelected = false;
+            }
+        },
+        isHeaderEmpty() {
+            if (!/([^\s])/.test(this.petitionInfo.petitionHeader)) {
+                this.errors.isHeaderEmpty = true;
+            }
+        },
+        isContentEmpty() {
+            if (!/([^\s])/.test(this.petitionInfo.petitionContent)) {
+                this.errors.isContentEmpty = true;
+            }
+        },
+        checkErrors() {
+            this.errors = {
+                isTopicSelected: true,
+                isHeaderEmpty: false,
+                isContentEmpty: false,
+            };
+            this.isContentEmpty();
+            this.isHeaderEmpty();
+            this.isTopicSelected();
+            for (let e in this.errors) {
+                console.log(`${e} : ${this.errors[e]}`);
+                if (e == "isTopicSelected") {
+                    if (this.errors[e] == false) {
+                        console.log(e + " hata var");
+                        return false;
+                    }
+                } else {
+                    if (this.errors[e] == true) {
+                        console.log(e + " hata var");
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        updatePetition() {
+            if (this.checkErrors()) {
+                this.$axios({
+                    method: "post",
+                    url: "updatepetition",
+                    data: {
+                        petition: this.petitionInfo,
+                    },
+                }).then((res) => {
+                    let s = this.$swal.mixin({
+                        toast: true,
+                        position: "top-end",
+                        iconColor: "white",
+                        color: "white",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                    });
+                    if (res.status == 200) {
+                        s.fire({
+                            background: "var(--bs-teal)",
+                            icon: "success",
+                            title: "Güncelleme işlemi başarılı !",
+                        });
+                    } else {
+                        s.fire({
+                            background: "var(--bs-danger)",
+                            icon: "error",
+                            title: res.data.error,
+                        });
+                    }
+                });
+                // this.$axios.post("petitions/updatepetition",{"petition":this.petitionInfo}).then(res=>{
+                //     console.log(res.data);
+                // })
+            }
+        },
+    },
+    provide() {
+        return {
+            petitionEditInfo: computed(() => this.petitionInfo),
+        };
+    },
+    computed: {
+        progress() {
+            return (this.petitionInfo.totalSigned / this.petitionInfo.targetSign) * 100;
         },
     },
 };
