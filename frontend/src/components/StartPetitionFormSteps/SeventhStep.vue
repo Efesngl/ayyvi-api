@@ -54,7 +54,7 @@ export default {
                     user: this.userStore.ID,
                 },
             }).then((res) => {
-              if (res.data.petition!=undefined) {
+              if (res.status==200) {
                 this.$swal.fire({
                   toast: true,
                   position: "top-end",

@@ -67,12 +67,12 @@ const routes = [
             {
                 path: "katildigimkampanyalar",
                 component: JoinedPetitions,
-                name:"Joinedpetitions"
+                name:"JoinedPetitions"
             },
             {
                 path: "baslattigimkampanyalar",
                 component: MyPetitions,
-                name:"Mypetitions"
+                name:"MyPetitions"
             },
         ],
     },

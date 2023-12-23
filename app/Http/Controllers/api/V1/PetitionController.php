@@ -22,7 +22,7 @@ class PetitionController extends Controller
     public function get_succeded_petitions()
     {
         $petitions = petitions::join("users", "petitions.creator", "=", "users.ID")
-            ->join("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
+            ->leftJoin("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
             ->select("petitions.ID", "petitions.petition_header", "created_at", "petition_image", "user_pp", "target_sign")
             ->selectRaw("concat(left(petition_content,67),'...') as 'petition_content'")
             ->selectRaw("concat(users.firstname,' ',users.lastname) as creator")
@@ -31,7 +31,7 @@ class PetitionController extends Controller
                 $b->where("is_succeded", 0);
             })
             ->when()
-            ->groupByRaw("signed_petitions.petition_id")
+            ->groupByRaw("petitions.ID")
             ->get();
 
 
@@ -93,22 +93,39 @@ class PetitionController extends Controller
         $image = preg_replace('#data:image/[^;]+;base64,#', '', $image);
         $img_data = base64_decode($image);
         $src = imagecreatefromstring($img_data);
-        $image_path = base_path("frontend/public/assets/img/{$petition['petitionImage']['name']}.{$petition['petitionImage']['extension']}");
-        if (imagejpeg($src, $image_path)) {
-            imagedestroy($src);
-            $petition_created = petitions::create([
-                "petition_header" => $petition["petitionHeader"],
-                "petition_content" => $petition["petitionContent"],
-                "petition_topic" => $petition["petitionTopic"],
-                "petition_image" =>   "/assets/img/{$petition['petitionImage']['name']}.{$petition['petitionImage']['extension']}",
-                "creator" => $req->input("user"),
-                "target_sign" => $petition["targetSign"],
-                "total_signed" => 0,
-            ]);
-            return response()->json([
-                "petition" => $petition_created
-            ]);
+        $petition_created = [
+            "petition_header" => $petition["petitionHeader"],
+            "petition_content" => $petition["petitionContent"],
+            "petition_topic" => $petition["petitionTopic"],
+            "creator" => $req->input("user"),
+            "target_sign" => $petition["targetSign"],
+        ];
+        $id=Petitions::insertGetId($petition_created);
+        $image_path = base_path("frontend/public/assets/img/");
+        $maxExecTime = time() + 5;
+        $isFileNameUnique = false;
+        $fileName = "";
+        while (time() !== $maxExecTime) {
+            $fileName = "{$id}_" . uniqid(mt_rand(), true) . ".{$petition["petitionImage"]["extension"]}";
+            if (!file_exists($image_path . $fileName)) {
+                $isFileNameUnique = true;
+                break;
+            }
         }
+        if($isFileNameUnique){
+            if (imagejpeg($src, $image_path.$fileName)) {
+                imagedestroy($src);
+                Petitions::where("ID",$id)->update([
+                    "petition_image"=>"/assets/img/{$fileName}"
+                ]);
+                return response("",200);
+            }
+        }else{
+            return response()->json([
+                "error"=>"Resim zaten mevcut"
+            ],404);
+        }
+
     }
     public function petition_detail(Request $req, int $id)
     {
@@ -280,5 +297,15 @@ class PetitionController extends Controller
         }
         Petitions::where("ID", $p["ID"])->update($petition);
         return response("",200);
+    }
+    public function delete_petition(Request $req){
+        $petition_id=$req->input("ID");
+        $p=Petitions::where("ID",$petition_id)->first();
+        $image_path=base_path("frontend/public/{$p["petition_image"]}");
+        if(Petitions::destroy($petition_id)>0){
+            unlink($image_path);
+            return response("",200);
+        }
+        return response("",404);
     }
 }

@@ -65,8 +65,11 @@
         </div>
 
         <div class="row mt-2">
-            <div class="col-12 text-center">
-                <button class="btn btn-danger" @click="updatePetition">Kaydet</button>
+            <div class="col-6 text-center">
+                <button class="btn btn-primary" @click="updatePetition">Kaydet</button>
+            </div>
+            <div class="col-6 text-center">
+                <button class="btn btn-danger" @click="deletePetition">Kampanyayı sil</button>
             </div>
         </div>
     </div>
@@ -165,7 +168,7 @@ export default {
             if (this.checkErrors()) {
                 this.$axios({
                     method: "post",
-                    url: "updatepetition",
+                    url: "petitions/updatepetition",
                     data: {
                         petition: this.petitionInfo,
                     },
@@ -197,6 +200,43 @@ export default {
                 //     console.log(res.data);
                 // })
             }
+        },
+        deletePetition() {
+            this.$swal
+                .fire({
+                    text: "Bu kampanyayı silmek üzeresiniz !",
+                    title: "Dikkat bu işlem geri alınamaz !",
+                    icon: "warning",
+                    showCancelButton: true,
+                    cancelButtonText: "İptal",
+                    confirmButtonText: "Kampanyayı sil",
+                    confirmButtonColor: "var(--bs-danger)",
+                    cancelButtonColor: "var(--bs-primary)",
+                })
+                .then((res) => {
+                    if (res.isConfirmed) {
+                        this.$axios.post("petitions/deletepetition", { ID: this.petitionInfo.ID }).then((res) => {
+                            if (res.status == 200) {
+                                this.$swal.fire({
+                                    title: "Kampanya başarıyla silindi.",
+                                    icon: "success",
+                                    confirmButtonText: "Tamam",
+                                    confirmButtonColor: "var(--bs-teal)",
+                                }).then(res=>{
+                                    this.$router.push({name:"MyPetitions"})
+                                })
+                            }else{
+                                this.$swal.fire({
+                                    title: "Kampanya silme işleminde bir hata oluştu !",
+                                    text:"Lütfen daha sonra tekrardan deneyiniz.",
+                                    icon: "error",
+                                    confirmButtonText: "Tamam",
+                                    confirmButtonColor: "var(--bs-teal)",
+                                })
+                            }
+                        });
+                    }
+                });
         },
     },
     provide() {
