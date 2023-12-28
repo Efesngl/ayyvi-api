@@ -47,7 +47,7 @@ For the run this project you need to install dependencies. Run these commands on
 - Install all the dependencies
 
 - Rename the '.env.exmaple' file to '.env' in the root of the project.
-- Change the 'DB_' sections in the '.env' file according to your database 
+- Change the '.env' file according to your information
 - After that run the database migrations with:
 
 ```bash
