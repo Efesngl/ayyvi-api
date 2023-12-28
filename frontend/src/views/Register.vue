@@ -23,11 +23,11 @@
                 <input type="text" name="lastname" v-model="user.lastname" class="form-control" id="lastname" />
                 <p v-if="errors.isLastnameEmpty">Bu alanı doldurmak zorunludur !</p>
                 <label for="email">Eposta</label>
-                <input type="text" name="email" v-model="user.email" class="form-control" id="email" />
+                <input type="text" name="email" v-model="user.email" class="form-control" id="email" @keydown.space.prevent />
                 <p v-if="errors.isEmailEmpty">Bu alanı doldurmak zorunludur !</p>
                 <label for="password">Şifre</label>
                 <div class="input-group">
-                  <input :type="input.inputType" v-model="user.password" name="password" class="form-control" id="password" />
+                  <input :type="input.inputType" @keydown.space.prevent v-model="user.password" name="password" class="form-control" id="password" />
                   <button class="btn btn-light border" :class="{ active: input.isPassShowing }" @click="showPassword">
                     <i class="bi bi-eye-slash" v-if="!input.isPassShowing"></i>
                     <i class="bi bi-eye" v-else></i>
@@ -50,7 +50,7 @@
                 <button class="btn btn-danger border w-100 mt-2" id="register-button" @click="register">Üye ol</button>
                 <div class="row mt-2">
                   <div class="col-12 text-center">
-                    <RouterLink to="/login" class="text-white text-decoration-none form-link"
+                    <RouterLink :to="{name:'Login'}" class="text-white text-decoration-none form-link"
                       >Zaten bir hesabınız var mı? Hemen giriş yapın</RouterLink
                     >
                   </div>

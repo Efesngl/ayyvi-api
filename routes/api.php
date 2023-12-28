@@ -39,6 +39,8 @@ Route::prefix("/v1")->group(function () {
         Route::post("/updateuserdetail",[UserController::class,"update_user_detail"]);
         Route::get("/getuserpetitions",[PetitionController::class,"get_user_petitions"]);
         Route::get("/getjoinedpetitions",[PetitionController::class,"get_joined_petitions"]);
+        Route::post("/forgotpassword",[UserController::class,"forgot_password"]);
+        Route::post("/resetpassword",[UserController::class,"reset_password"]);
     });
     Route::get("gettopics",function(){
         return response()->json([

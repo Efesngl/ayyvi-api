@@ -23,7 +23,9 @@ class PetiteEditResource extends JsonResource
             "targetSign"=>$this->target_sign,
             "totalSigned"=>$this->total_signed,
             "isSucceded"=>$this->is_succeded,
+            "success"=>$this->is_succeded,
             "petitionTopic"=>$this->petition_topic,
+            "isSuccessAllowed"=>$this->is_success_allowed
         ];
     }
 }

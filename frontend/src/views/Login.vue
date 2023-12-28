@@ -26,7 +26,7 @@
                     <span>Lütfen eposta giriniz !</span>
                   </div>
                 </div>
-                <input type="text" v-model="user.email" name="email" class="form-control" id="email" />
+                <input type="text" v-model="user.email" name="email" class="form-control" id="email" @keydown.space.prevent />
                 <label for="password">Şifre</label>
                 <div class="row" v-if="errors.isPasswordEmpty">
                   <div class="col-12">
@@ -34,7 +34,7 @@
                   </div>
                 </div>
                 <div class="input-group mb-3">
-                  <input :type="input.inputType" v-model="user.password" name="password" class="form-control" id="password" />
+                  <input :type="input.inputType" v-model="user.password" name="password" class="form-control" id="password" @keydown.space.prevent />
                   <button class="btn btn-light border" :class="{'active':input.isPassShowing}" @click="showPassword">
                     <i class="bi bi-eye-slash" v-if="!input.isPassShowing"></i>
                     <i class="bi bi-eye" v-else></i>
@@ -46,13 +46,13 @@
                     <label for="remember" class="form-check-label">Beni Hatırla</label>
                   </div>
                   <div class="col-6 text-end">
-                    <RouterLink to="/forgotpassword" class="text-white text-decoration-none form-link">Şifremi unuttum</RouterLink>
+                    <RouterLink :to="{name:'ForgotPassword'}" class="text-white text-decoration-none form-link">Şifremi unuttum</RouterLink>
                   </div>
                 </div>
                 <button class="btn btn-danger border w-100 mt-2" id="login-button" @click="login">Giriş Yap</button>
                 <div class="row mt-2">
                   <div class="col-12 text-center">
-                    <RouterLink to="/register" class="text-white text-decoration-none form-link"
+                    <RouterLink :to="{name:'Register'}" class="text-white text-decoration-none form-link"
                       >Hesabınız yok mu? Hemen bir hesap oluşturun</RouterLink
                     >
                   </div>

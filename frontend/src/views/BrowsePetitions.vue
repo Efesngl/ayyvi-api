@@ -11,104 +11,37 @@
       <div class="col-12">
         <ul class="nav nav-tabs justify-content-center">
           <li class="nav-item">
-            <button
-              @click="changeActiveTab('newest')"
+            <RouterLink
+              :to="{name:'BrowseNewestPetitions'}"
               class="nav-link browse-link"
-              :class="{ active: activeTab == 'newest' }"
-              aria-current="page"
-              href="#"
+              activeClass="active"
             >
               En yeniler
-            </button>
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <button @click="changeActiveTab('popular')" class="nav-link browse-link" :class="{ active: activeTab == 'popular' }" href="#">
-              Öne çıkanlar
-            </button>
+            <RouterLink
+              :to="{name:'BrowsePopularPetitions'}"
+              class="nav-link browse-link"
+              activeClass="active"
+            >
+              En popüler
+            </RouterLink>
           </li>
           <li class="nav-item">
-            <button @click="changeActiveTab('succeded')" class="nav-link browse-link" :class="{ active: activeTab == 'succeded' }" href="#">
-              Başarılı olanlar
-            </button>
+            <RouterLink
+              :to="{name:'BrowseSuccededPetitions'}"
+              class="nav-link browse-link"
+              activeClass="active"
+            >
+              Başarılı
+            </RouterLink>
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="container h-auto" style="height: 70vh;" v-auto-animate>
-    <!-- newest petitions -->
-    <div class="container-fluid mt-5" v-if="activeTab == 'newest'">
-      <BrowsepetitionCard v-for="petition in petitions" :petition="petition">
-        <template v-slot:browsepetitionCardImage>
-          <img :src="petition.petitionImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
-        </template>
-        <template v-slot:browsepetitionCardHeader>
-          <h5 class="card-title">{{ petition.petitionHeader }}</h5>
-        </template>
-        <template v-slot:browsepetitionCardContent>
-          <p class="card-text">{{ petition.petitionContent }}</p>
-        </template>
-        <template v-slot:browsepetitionCardButton>
-          <div class="row mt-2">
-            <div class="col-12 text-center">
-              <RouterLink :to="{ name: 'PetitionDetail', params: { ID: petition.ID } }" class="btn btn-danger text-decoration-none"
-                >Kampanyaya git</RouterLink
-              >
-            </div>
-          </div>
-        </template>
-      </BrowsepetitionCard>
-    </div>
-    <div class="container-fluid mt-5" v-if="activeTab == 'popular'">
-      <BrowsepetitionCard v-for="petition in popularpetitions" :petition="petition">
-        <template v-slot:browsepetitionCardImage>
-          <img :src="petition.petitionImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
-        </template>
-        <template v-slot:browsepetitionCardHeader>
-          <h5 class="card-title">{{ petition.petitionHeader }}</h5>
-        </template>
-        <template v-slot:browsepetitionCardContent>
-          <p class="card-text">{{ petition.petitionContent }}</p>
-        </template>
-        <template v-slot:browsepetitionCardButton>
-          <div class="row mt-2">
-            <div class="col-12 text-center">
-              <RouterLink :to="{ name: 'PetitionDetail', params: { ID: petition.ID } }" class="btn btn-danger text-decoration-none"
-                >Kampanyaya git</RouterLink
-              >
-            </div>
-          </div>
-        </template>
-      </BrowsepetitionCard>
-    </div>
-    <div class="container-fluid mt-5" v-if="activeTab == 'succeded'">
-      <BrowsepetitionCard v-for="petition in succededpetitions" :petition="petition">
-        <template v-slot:browsepetitionCardImage>
-          <img :src="petition.petitionImage" class="w-100 h-100 rounded-start" style="object-fit: fill" alt="..." />
-        </template>
-        <template v-slot:browsepetitionCardHeader>
-          <h5 class="card-title">{{ petition.petitionHeader }}</h5>
-        </template>
-        <template v-slot:browsepetitionCardContent>
-          <p class="card-text">{{ petition.petitionContent }}</p>
-        </template>
-        <template v-slot:browsepetitionCardButton>
-          <div class="row mt-2">
-            <div class="col-12 text-center">
-              <RouterLink :to="{ name: 'PetitionDetail', params: { ID: petition.ID } }" class="btn btn-danger text-decoration-none"
-                >Kampanyaya git</RouterLink
-              >
-            </div>
-          </div>
-        </template>
-      </BrowsepetitionCard>
-    </div>
-    <div class="row">
-      <div class="col-12 text-center">
-        <button class="btn btn-danger" @click="loadMorepetition">Daha fazla kampanya göster</button>
-      </div>
-    </div>
-  </div>
+  <RouterView></RouterView>
   <Footer></Footer>
 </template>
 

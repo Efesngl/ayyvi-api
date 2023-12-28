@@ -49,6 +49,11 @@
                     <label class="form-check-label" for="flexSwitchCheckChecked">Kampanya başarılı</label>
                 </div>
             </div>
+            <div class="col-6" v-if="petitionInfo.success">
+                <p v-if="petitionInfo.isSuccessAllowed==0" class="text-primary">Kampanya başarı durumu inceleniyor !</p>
+                <p v-if="petitionInfo.isSuccessAllowed==1" class="text-success">Kampanya başarısı onaylandı !</p>
+                <p v-if="petitionInfo.isSuccessAllowed==2" class="text-danger">Kampanya başarısı onaylanmadı !</p>
+            </div>
         </div>
         <div class="row d-block d-md-none">
             <div class="col-12">
@@ -107,6 +112,7 @@ export default {
                 isHeaderEmpty: false,
                 isContentEmpty: false,
             },
+            petition:[]
         };
     },
     async beforeMount() {

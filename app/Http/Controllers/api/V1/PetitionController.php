@@ -30,12 +30,12 @@ class PetitionController extends Controller
             ->whereNot(function (Builder $b) {
                 $b->where("is_succeded", 0);
             })
-            ->when()
+            ->where("is_success_allowed",1)
             ->groupByRaw("petitions.ID")
             ->get();
 
 
-        return response()->json(petitionResource::collection($petitions), 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json(petitionResource::collection($petitions));
     }
     public function get_popular_petitions()
     {
@@ -50,7 +50,7 @@ class PetitionController extends Controller
             ->orderByRaw("count(*) desc,signed_petitions.signed_at desc")
             ->havingRaw("count(*)>5")
             ->get();
-        return response()->json(petitionResource::collection($popular_petitions), 200, [], JSON_UNESCAPED_UNICODE);
+        return response()->json(petitionResource::collection($popular_petitions));
     }
     public function get_newest_petitions()
     {

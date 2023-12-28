@@ -12,7 +12,7 @@
         </div>
         <div class="col-6 col-md-4 d-flex flex-column justify-content-evenly">
           <RouterLink to="/" class="fs-3 text-white text-decoration-none footer-link">Ana Sayfa</RouterLink>
-          <RouterLink to="/gozat" class="fs-3 text-white text-decoration-none footer-link">Kampanyalara göz at</RouterLink>
+          <RouterLink :to="{name:'BrowseNewestPetitions'}" class="fs-3 text-white text-decoration-none footer-link">Kampanyalara göz at</RouterLink>
           <RouterLink to="/bagis" class="fs-3 text-white text-decoration-none footer-link">Bağış yap</RouterLink>
         </div>
         <div class="col-6 col-md-4 d-flex flex-column justify-content-evenly">

@@ -89,7 +89,11 @@
                         <div v-else>
                             <div class="row mt-2">
                                 <div class="col-12">
-                                    <button class="btn btn-danger text-white w-100">Kampanyayı düzenle</button>
+                                    <RouterLink
+                                        :to="{ name: 'EditPetition', params: { ID: this.$route.params.ID } }"
+                                        class="btn btn-danger text-white w-100"
+                                        >Kampanyayı düzenle</RouterLink
+                                    >
                                 </div>
                             </div>
                         </div>
@@ -138,33 +142,52 @@
                         </div>
                     </div>
                     <div v-if="user.isLogged">
-                        <div class="row mt-5" v-if="!isSigned">
-                            <div class="col-12">
-                                <h6>Kampanyaya katılma nedeni (zorunlu değil)</h6>
-                                <small v-if="signReason.isReasonEmpty" class="text-danger"
+                        <div v-if="!petitionInfo.doesBelongToUser">
+                            <div class="row mt-5" v-if="!isSigned">
+                                <div class="col-12">
+                                    <h6>Kampanyaya katılma nedeni (zorunlu değil)</h6>
+                                    <small v-if="signReason.isReasonEmpty" class="text-danger"
                                         >Katılım nedeninizin görünmesini istiyorsanız bu alanı doldurmak zorunludur*</small
                                     >
-                                <textarea
-                                    name="reason"
-                                    v-model="signReason.reason"
-                                    id="reason"
-                                    style="resize: vertical"
-                                    class="form-control w-100"
-                                    maxlength="100"
-                                ></textarea>
-                                <div class="row">
-                                    <div class="col text-end">{{ signReasonReaminingWord }} kelime</div>
+                                    <textarea
+                                        name="reason"
+                                        v-model="signReason.reason"
+                                        id="reason"
+                                        style="resize: vertical"
+                                        class="form-control w-100"
+                                        maxlength="100"
+                                    ></textarea>
+                                    <div class="row">
+                                        <div class="col text-end">{{ signReasonReaminingWord }} kelime</div>
+                                    </div>
+                                    <input
+                                        type="checkbox"
+                                        v-model="signReason.willShown"
+                                        name="will_show"
+                                        id="will_show"
+                                        class="form-check-input me-1"
+                                    />
+                                    <label for="will_show" class="form-check-label">Kampanyaya katılma sebebimi bu kampanyada göster</label>
                                 </div>
-                                <input type="checkbox" v-model="signReason.willShown" name="will_show" id="will_show" class="form-check-input me-1" />
-                                <label for="will_show" class="form-check-label">Kampanyaya katılma sebebimi bu kampanyada göster</label>
+                            </div>
+                            <div class="row mt-2" v-if="!petitionInfo.isSucceded">
+                                <div class="col-12" v-auto-animate>
+                                    <button class="btn btn-danger w-100" @click="signPetition" v-if="!isSigned">Kampanyaya katıl</button>
+                                    <button class="btn btn-outline-danger w-100" @click="unsignPetition" v-else>
+                                        Kampanyaya katılındı <i class="bi bi-check2-circle"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mt-2" v-if="!petitionInfo.isSucceded">
-                            <div class="col-12" v-auto-animate>
-                                <button class="btn btn-danger w-100" @click="signPetition" v-if="!isSigned">Kampanyaya katıl</button>
-                                <button class="btn btn-outline-danger w-100" @click="unsignPetition" v-else>
-                                    Kampanyaya katılındı <i class="bi bi-check2-circle"></i>
-                                </button>
+                        <div v-else>
+                            <div class="row mt-2">
+                                <div class="col-12">
+                                    <RouterLink
+                                        :to="{ name: 'EditPetition', params: { ID: this.$route.params.ID } }"
+                                        class="btn btn-danger text-white w-100"
+                                        >Kampanyayı düzenle</RouterLink
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>

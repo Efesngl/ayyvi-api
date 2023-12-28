@@ -16,26 +16,35 @@
                             "
                         >
                             <div class="card-body p-5">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <RouterLink :to="{ name: 'Login' }" class="text-white text-decoration-none form-link"
-                                            ><i class="bi bi-arrow-left me-1"></i>Giriş ekranına geri dön</RouterLink
-                                        >
-                                    </div>
-                                </div>
                                 <div class="text-center">
-                                    <RouterLink to="/"
-                                        ><img src="/assets/img/logo/png/lw.png" class="w-25 h-25" style="object-fit: contain" alt=""
-                                    /></RouterLink>
+                                    <img src="/assets/img/logo/png/lw.png" class="w-25 h-25" style="object-fit: contain" alt="" />
                                 </div>
                                 <h5 class="card-title text-center">Hesabınızın şifresini sıfırlayın</h5>
-                                <label for="email">Eposta</label>
-                                <div class="row" v-if="errors.isEmailEmpty">
+                                <label for="email">Şifre giriniz</label>
+                                <input
+                                    v-model="passwords.pass1"
+                                    type="password"
+                                    name="password-1"
+                                    class="form-control"
+                                    id="password-1"
+                                    @keyup="checkPass"
+                                    @keydown.space.prevent
+                                />
+                                <label for="email">Tekrar şifre giriniz</label>
+                                <input
+                                    v-model="passwords.pass2"
+                                    type="password"
+                                    name="password-2"
+                                    class="form-control"
+                                    id="password-2"
+                                    @keyup="checkPass"
+                                    @keydown.space.prevent
+                                />
+                                <div class="row" v-if="!isPasswordsMatching">
                                     <div class="col-12">
-                                        <span>Lütfen eposta giriniz !</span>
+                                        <p class="text-white">Şifreler eşleşmiyor !</p>
                                     </div>
                                 </div>
-                                <input type="text" v-model="email" name="email" class="form-control" id="email" @keydown.space.prevent />
                                 <button class="btn btn-danger border w-100 mt-2" id="login-button" @click="resetPassword">Sıfırla</button>
                             </div>
                         </div>
@@ -51,51 +60,38 @@ import { RouterLink } from "vue-router";
 export default {
     data() {
         return {
-            email: null,
-            errors: {
-                isEmailEmpty: false,
-                isPasswordEmpty: false,
+            passwords: {
+                pass1: "",
+                pass2: "",
             },
+            isPasswordsMatching: true,
         };
     },
     methods: {
-        isEmailEmpty() {
-            if (this.email == null || this.email == "") {
-                this.errors.isEmailEmpty = true;
-            }
-        },
-        checkErrors() {
-            this.errors = {
-                isEmailEmpty: false,
-            };
-            this.isEmailEmpty();
-            if (this.errors.isEmailEmpty == true) {
-                return false;
-            }
-            return true;
+        checkPass() {
+            if (this.passwords.pass1 != this.passwords.pass2) this.isPasswordsMatching = false;
+            else this.isPasswordsMatching = true;
         },
         resetPassword() {
-            if (this.checkErrors()) {
+            if (this.isPasswordsMatching) {
                 this.$axios
-                    .post("user/forgotpassword", {
-                        email: this.email,
+                    .post("user/resetpassword", {
+                        pass: this.passwords.pass1,
+                        token: this.$route.params.token,
                     })
                     .then((res) => {
                         if (res.status == 200) {
                             this.$swal.fire({
                                 icon: "success",
-                                title: "Sıfırlama bağlantısı gönderildi",
-                                text: "Eğer girdiğiniz eposta ile bir hesap uyuşuyorsa sıfırlama bağlantısı girilen eposta adresine gönderildi",
-                            })
-                        } else {
-                            this.$swal.fire({
-                                icon: "error",
-                                title: "Sıfırlama bağlantısı gönderilemedi",
+                                title: "Şifre başarıyla sıfırlandı! Giriş ekranına yönlendiriliyorsunuz...",
+                                timer: 1500,
+                                showConfirmButton:false,
+                                timerProgressBar: true,
+                            }).then(()=>{
+                                this.$router.push({name:"Login"})
                             });
                         }
                     });
-            } else {
-                alert("error var");
             }
         },
         showPassword(e) {
@@ -117,10 +113,10 @@ export default {
 
 <style>
 /* #login-body{
-      background-image: url("../assets/img/bg-2.svg");
-      background-repeat: no-repeat;
-      background-size: cover;
-  } */
+        background-image: url("../assets/img/bg-2.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    } */
 .form-link {
     transition: 0.2s;
 }

@@ -54,7 +54,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12 text-center">
-                    <RouterLink to="/browse" class="btn btn-danger">Daha fazla kampanyaya göz gezdir</RouterLink>
+                    <RouterLink :to="{name:'BrowsePopularPetitions'}" class="btn btn-danger">Daha fazla kampanyaya göz gezdir</RouterLink>
                 </div>
             </div>
         </div>

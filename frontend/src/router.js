@@ -13,6 +13,10 @@ import JoinedPetitions from "./views/JoinedPetitions.vue";
 import PetitionDetail from "./views/PetitionDetail.vue";
 import EditPetition from "./views/EditPetition.vue"
 import { useUserStore } from "./stores/UserStore";
+import BrowseNewestPetitions from "./views/BrowseNewestPetitions.vue"
+import BrowsePopularPetitions from "./views/BrowsePopularPetitions.vue"
+import BrowseSuccededPetitions from "./views/BrowseSuccededPetitions.vue"
+import ResetPassword from "./views/ResetPassword.vue"
 const routes = [
     {
         path: "/",
@@ -23,6 +27,24 @@ const routes = [
         path: "/gozat",
         component: BrowsePetitions,
         name: "BrowsePetitions",
+        children:[
+            {
+                path:"yenikampanyalar",
+                component:BrowseNewestPetitions,
+                name:"BrowseNewestPetitions"
+            },
+            {
+                path:"popularkampanyalar",
+                component:BrowsePopularPetitions,
+                name:"BrowsePopularPetitions"
+            },
+            {
+                path:"basarilikampanyalar",
+                component:BrowseSuccededPetitions,
+                name:"BrowseSuccededPetitions"
+            },
+
+        ]
     },
     {
         path: "/kampanya/:ID",
@@ -48,6 +70,11 @@ const routes = [
         path: "/sifremiunuttum",
         component: ForgotPassword,
         name: "ForgotPassword",
+    },
+    {
+        path:"/sifresifirla/:token",
+        component:ResetPassword,
+        name:"ResetPassword"
     },
     {
         path: "/kampanyabaslat",
