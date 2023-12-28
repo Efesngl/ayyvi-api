@@ -119,14 +119,17 @@ const router = createRouter({
     },
 });
 const authNeededRoutes = ["UserPage"];
+const cantEnterIfAuthorized=["Login","Register"]
 router.beforeEach((to, from) => {
+    console.log(to);
     const userStore = useUserStore();
     let isAuthNeeded=false
-    authNeededRoutes.forEach(r=>{
-        if ((to.name == r || to.matched[0].name==r) && userStore.isLogged == false) {
-            isAuthNeeded=true
-        }
-    })
+    if((authNeededRoutes.includes(to.name) || authNeededRoutes.includes(to.matched[0].name)) && !userStore.isLogged){
+        isAuthNeeded=true
+    }
+    if(cantEnterIfAuthorized.includes(to.name) && userStore.isLogged){
+        return {name:"HomePage"}
+    }
     if(isAuthNeeded) return {name:"Login"}
 });
 
