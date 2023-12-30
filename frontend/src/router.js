@@ -17,6 +17,10 @@ import BrowseNewestPetitions from "./views/BrowseNewestPetitions.vue"
 import BrowsePopularPetitions from "./views/BrowsePopularPetitions.vue"
 import BrowseSuccededPetitions from "./views/BrowseSuccededPetitions.vue"
 import ResetPassword from "./views/ResetPassword.vue"
+import AdminLayout from "./views/Admin/AdminLayout.vue"
+import AdminDashboard from "./views/Admin/AdminDashboard.vue"
+import DonationStatus from "./views/DonationStatus.vue"
+import MyDonations from "./views/MyDonations.vue"
 const routes = [
     {
         path: "/",
@@ -55,6 +59,11 @@ const routes = [
         path: "/bagis",
         component: Donate,
         name: "Donate",
+    },
+    {
+        path:"/bagis/:status",
+        component:DonationStatus,
+        name:"DonationStatus"
     },
     {
         path: "/giris",
@@ -101,14 +110,30 @@ const routes = [
                 component: MyPetitions,
                 name:"MyPetitions"
             },
+            {
+                path:"yaptigimbagislar",
+                component:MyDonations,
+                name:"MyDonations"
+            }
         ],
     },
     {
         path:"/kampanyaduzenle/:ID",
         component:EditPetition,
         name:"EditPetition"
+    },
+    {
+        path:"/admin",
+        component:AdminLayout,
+        name:"AdminHome",
+        children:[
+            {
+                path:"",
+                component:AdminDashboard,
+                name:"AdminDashboard"
+            }
+        ]
     }
-    
 ];
 
 const router = createRouter({

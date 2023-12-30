@@ -11,7 +11,7 @@
                     <li>
                         <RouterLink class="nav-links" active-class="active-navbar" to="/kampanyabaslat"> Kampanya başlat</RouterLink>
                     </li>
-                    <li><RouterLink class="nav-links" active-class="active-navbar" :to="{name:'BrowseNewestPetitions'}"> Göz at</RouterLink></li>
+                    <li><RouterLink class="nav-links" active-class="active-navbar" :to="{name:'BrowsePetitions'}"> Göz at</RouterLink></li>
                     <li><RouterLink class="nav-links" active-class="active-navbar" to="/bagis"> Bağışçı ol</RouterLink></li>
                 </ul>
             </div>

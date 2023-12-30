@@ -41,7 +41,11 @@
       </div>
     </div>
   </div>
-  <RouterView></RouterView>
+  <div class="container h-auto min-vh-100">
+    <div class="container-fluid mt-5">
+      <RouterView></RouterView>
+    </div>
+  </div>
   <Footer></Footer>
 </template>
 
@@ -54,52 +58,6 @@ export default {
     Navbar,
     BrowsepetitionCard,
     Footer,
-  },
-  data() {
-    return {
-      activeTab: "newest",
-      petitions: [],
-      popularpetitions:[],
-      succededpetitions:[],
-      offset:0
-    };
-  },
-  async beforeMount(){
-    await this.getpetitions()
-    await this.getPopularpetitions()
-    await this.getSuccededpetitions()
-  },
-  methods: {
-    changeActiveTab(tab) {
-      if(this.activeTab!=tab) this.activeTab = tab;
-    },
-    loadMorepetition() {
-      this.offset+=5
-    },
-    getpetitions(){
-      this.$axios({
-        method:"get",
-        url:`/petitions/browsepetitions/newest`
-      }).then((res) => {
-        this.petitions=res.data.petitions
-      })
-    },
-    getPopularpetitions(){
-      this.$axios({
-        method:"get",
-        url:`/petitions/browsepetitions/popular`
-      }).then((res) => {
-        this.popularpetitions=res.data
-      })
-    },
-    getSuccededpetitions(){
-      this.$axios({
-        method:"get",
-        url:`/petitions/browsepetitions/succeded`
-      }).then((res) => {
-          this.succededpetitions=res.data
-      })
-    }
   },
 };
 </script>

@@ -8,19 +8,18 @@ use App\Http\Resources\V1\PetitionDetailResource;
 use App\Http\Resources\V1\PetitionResource;
 use App\Models\Petitions;
 use App\Models\SignedPetitions;
-use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Client\ResponseSequence;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use PhpParser\Node\Expr\Cast\Object_;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class PetitionController extends Controller
 {
     //
-    public function get_succeded_petitions()
+    public function get_succeded_petitions(Request $req)
     {
+        $offset=$req->query("offset");
         $petitions = petitions::join("users", "petitions.creator", "=", "users.ID")
             ->leftJoin("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
             ->select("petitions.ID", "petitions.petition_header", "created_at", "petition_image", "user_pp", "target_sign")
@@ -32,13 +31,16 @@ class PetitionController extends Controller
             })
             ->where("is_success_allowed",1)
             ->groupByRaw("petitions.ID")
+            ->offset($offset)
+            ->limit(5)
             ->get();
 
 
         return response()->json(petitionResource::collection($petitions));
     }
-    public function get_popular_petitions()
+    public function get_popular_petitions(Request $req)
     {
+        $offset=$req->query("offset") ?? 0;
         $popular_petitions = petitions::join("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
             ->join("users", "users.ID", "=", "petitions.creator")
             ->select("petitions.ID", "petitions.petition_header", "created_at", "petition_image", "user_pp", "target_sign")
@@ -48,12 +50,15 @@ class PetitionController extends Controller
             ->where("is_succeded", 0)
             ->groupByRaw("signed_petitions.petition_id")
             ->orderByRaw("count(*) desc,signed_petitions.signed_at desc")
-            ->havingRaw("count(*)>5")
+            ->havingRaw("count(*)>10")
+            ->offset($offset)
+            ->limit(5)
             ->get();
         return response()->json(petitionResource::collection($popular_petitions));
     }
-    public function get_newest_petitions()
+    public function get_newest_petitions(Request $req)
     {
+        $offset=$req->query("offset");
         $petitions = petitions::join("users", "users.ID", "=", "petitions.creator")
             ->join("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
             ->select("petitions.ID", "petition_header", "created_at", "petition_image", "target_sign")
@@ -63,23 +68,23 @@ class PetitionController extends Controller
             ->groupByRaw("signed_petitions.petition_id")
             ->havingRaw("count(signed_petitions.petition_id) > 10")
             ->where("petitions.is_succeded", 0)
+            ->offset($offset)
+            ->limit(5)
             ->get();
-        return response()->json([
-            "petitions" => petitionResource::collection($petitions)
-        ]);
+        return response()->json(petitionResource::collection($petitions));
     }
-    public function browse_petitions($cat)
+    public function browse_petitions(Request $req,$cat)
     {
         switch ($cat) {
             case 'newest':
                 # code...
-                return  $this->get_newest_petitions();
+                return  $this->get_newest_petitions($req);
                 break;
             case "popular":
-                return $this->get_popular_petitions();
+                return $this->get_popular_petitions($req);
                 break;
             case "succeded":
-                return $this->get_succeded_petitions();
+                return $this->get_succeded_petitions($req);
                 break;
             default:
                 # code...
@@ -101,22 +106,22 @@ class PetitionController extends Controller
             "target_sign" => $petition["targetSign"],
         ];
         $id=Petitions::insertGetId($petition_created);
-        $image_path = base_path("frontend/public/assets/img/");
+        $image_path = public_path("/storage/petition_images/");
         $maxExecTime = time() + 5;
         $isFileNameUnique = false;
         $fileName = "";
         while (time() !== $maxExecTime) {
-            $fileName = "{$id}_" . uniqid(mt_rand(), true) . ".{$petition["petitionImage"]["extension"]}";
+            $fileName = "{$id}_" . uniqid(mt_rand(), true) . ".webp";
             if (!file_exists($image_path . $fileName)) {
                 $isFileNameUnique = true;
                 break;
             }
         }
         if($isFileNameUnique){
-            if (imagejpeg($src, $image_path.$fileName)) {
+            if (imagewebp($src, $image_path.$fileName)) {
                 imagedestroy($src);
                 Petitions::where("ID",$id)->update([
-                    "petition_image"=>"/assets/img/{$fileName}"
+                    "petition_image"=>"/storage/petition_images/{$fileName}"
                 ]);
                 return response("",200);
             }

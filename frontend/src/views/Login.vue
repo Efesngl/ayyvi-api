@@ -111,7 +111,6 @@ export default {
       return true;
     },
     async login() {
-      // await this.$sanctum.get("/sanctum/csrf-cookie")
       let s = this.$swal.mixin({
         toast: true,
         position: "top-end",

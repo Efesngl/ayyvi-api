@@ -2,7 +2,7 @@
   <div class="col">
     <RouterLink :to="{name:'PetitionDetail',params:{ID:petition.ID}}" class="text-decoration-none">
       <div class="card h-100 hp">
-        <img :src="petition.petitionImage" class="card-img-top" alt="..." />
+        <img :src="this.apiURL+petition.petitionImage" class="card-img-top" alt="..." />
         <div class="card-body">
           <h5 class="card-title">{{ petition.petitionHeader }}</h5>
           <p class="card-text">

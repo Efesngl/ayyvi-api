@@ -30,10 +30,17 @@
                 <h2>Başarılı kampanyalar</h2>
             </div>
         </div>
-        <div class="row row-cols-1 row-cols-md-5 g-4 mt-2" id="succeded-petitions">
-            <SuccededPetitions v-for="sp in succededPetitions" :sp="sp">
-            </SuccededPetitions>
+        <div class="row row-cols-1 row-cols-md-4 g-4 p-1 p-md-5" v-if="isSuccededPetitionsLoading">
+            <HomePh v-for="i in 5"></HomePh>
         </div>
+        <div class="row row-cols-1 row-cols-md-5 g-4 mt-2" id="succeded-petitions" v-if="popularPetitions.length > 0">
+            <SuccededPetitions v-for="sp in succededPetitions" :sp="sp"></SuccededPetitions>
+        </div>
+        <div class="row" v-else>
+                <div class="col-12 text-center">
+                    <h4 class="text-danger">Başarılı bir kampanya bulunmamaktadır !</h4>
+                </div>
+            </div>
     </div>
     <hr class="border-3 mt-5" />
     <!-- kampanyalar -->
@@ -44,7 +51,10 @@
                     <h2>Öne çıkan kampanyalar</h2>
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-md-4 g-4 p-1 p-md-5" v-if="popularPetitions.length>0">
+            <div class="row row-cols-1 row-cols-md-4 g-4 p-1 p-md-5" v-if="isPopularPetitionsLoading">
+                <HomePh v-for="i in 5"></HomePh>
+            </div>
+            <div class="row row-cols-1 row-cols-md-4 g-4 p-1 p-md-5" v-if="popularPetitions.length > 0">
                 <HomePagePetitions v-for="(pt, i) in popularPetitions" :petition="pt"></HomePagePetitions>
             </div>
             <div class="row" v-else>
@@ -54,7 +64,7 @@
             </div>
             <div class="row mt-2">
                 <div class="col-12 text-center">
-                    <RouterLink :to="{name:'BrowsePopularPetitions'}" class="btn btn-danger">Daha fazla kampanyaya göz gezdir</RouterLink>
+                    <RouterLink :to="{ name: 'BrowsePopularPetitions' }" class="btn btn-danger">Daha fazla kampanyaya göz gezdir</RouterLink>
                 </div>
             </div>
         </div>
@@ -67,40 +77,47 @@ import HomePagePetitions from "../components/HomePagePetitions.vue";
 import SuccededPetitions from "../components/SuccededPetitions.vue";
 import Navbar from "../components/Shared/Navbar.vue";
 import Footer from "../components/Shared/Footer.vue";
+import HomePh from "../components/HomePh.vue";
 export default {
     components: {
         HomePagePetitions,
         SuccededPetitions,
+        HomePh,
         Navbar,
         Footer,
     },
     data() {
         return {
+            isPopularPetitionsLoading: true,
+            isSuccededPetitionsLoading: true,
             popularPetitions: [],
-            succededPetitions:[]
+            succededPetitions: [],
         };
     },
-    beforeMount(){
-      this.getSuccededPetitions()
-      this.getPopularPetitions()
+    beforeMount() {
+        
+        this.getSuccededPetitions();
+        this.getPopularPetitions();
     },
     methods: {
         getSuccededPetitions() {
             this.$axios({
                 method: "get",
-                url: "/petitions/getsuccededpetitions",
-            }).then(res=>{
-              this.succededPetitions=res.data
+                url: "/petitions/getsuccededpetitions?offset=0",
+            }).then((res) => {
+                this.succededPetitions = res.data;
+                this.isSuccededPetitionsLoading = false;
             });
         },
-        getPopularPetitions(){
+        getPopularPetitions() {
             this.$axios({
                 method: "get",
-                url: "/petitions/getpopularpetitions",
-            }).then(res=>{
-              this.popularPetitions=res.data
+                url: "/petitions/getpopularpetitions?offset=0",
+            }).then((res) => {
+                this.popularPetitions = res.data;
+                this.isPopularPetitionsLoading = false;
             });
-        }
+        },
     },
 };
 </script>

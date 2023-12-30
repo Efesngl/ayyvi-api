@@ -10,7 +10,7 @@
             <div class="col-12 col-md-8" id="petitionContent">
                 <div class="row">
                     <div class="col-12">
-                        <img :src="petitionInfo.petitionImage" class="w-100 h-100" style="object-fit: fill" alt="" />
+                        <img :src="this.apiURL+petitionInfo.petitionImage" class="w-100 h-100" style="object-fit: fill" alt="" />
                     </div>
                 </div>
                 <div class="row mt-5">
@@ -117,7 +117,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-2">
-                            <img :src="petitionInfo.userPP" class="petition-creator-logo" alt="" />
+                            <img :src="this.apiURL+petitionInfo.userPP" class="petition-creator-logo" alt="" />
                         </div>
                         <div class="col-10 fs-5 d-flex align-items-center">
                             <span>{{ petitionInfo.creator }}</span>

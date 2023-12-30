@@ -14,6 +14,7 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 const app = createApp(App);
 app.config.globalProperties.$axios = a;
+app.config.globalProperties.apiURL="http://localhost:8000"
 app.config.globalProperties.$swal = Swal;
 app.use(pinia);
 app.use(router);

@@ -3,7 +3,7 @@
         <div class="col sp">
             <div class="card position-relative">
                 <span class="position-absolute translate-middle-y badge rounded-pill bg-danger">Başarılı</span>
-                <img :src="sp.petitionImage" class="card-img-top sp-image" alt="..." />
+                <img :src="this.apiURL+sp.petitionImage" class="card-img-top sp-image" alt="..." />
                 <div class="card-body">
                     <h4 class="card-title">{{ sp.petitionHeader }}</h4>
                     <div class="card-text">{{ sp.petitionContent }}</div>

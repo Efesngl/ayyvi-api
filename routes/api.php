@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\V1\DonationController;
 use App\Http\Controllers\api\V1\PetitionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,9 +48,6 @@ Route::prefix("/v1")->group(function () {
             "topics"=>DB::table("topics")->get()
         ]);
     });
-    Route::post("deneme",function(){
-        return response()->json([
-            "deneme"=>"asd"
-        ]);
-    });
+    Route::post("donate",[DonationController::class,"make_donate"]);
+    Route::get("donate",[DonationController::class,"get_donations"]);
 });

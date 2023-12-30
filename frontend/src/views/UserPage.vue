@@ -19,6 +19,11 @@
               Katıldığım kampanyalar
             </RouterLink>
           </li>
+          <li class="nav-item">
+            <RouterLink to="/hesabim/yaptigimbagislar" class="nav-link browse-link" active-class="active">
+              Yaptığım bağışlar
+            </RouterLink>
+          </li>
         </ul>
       </div>
     </div>
