@@ -306,7 +306,7 @@ class PetitionController extends Controller
     public function delete_petition(Request $req){
         $petition_id=$req->input("ID");
         $p=Petitions::where("ID",$petition_id)->first();
-        $image_path=base_path("frontend/public/{$p["petition_image"]}");
+        $image_path=public_path($p["petition_image"]);
         if(Petitions::destroy($petition_id)>0){
             unlink($image_path);
             return response("",200);
