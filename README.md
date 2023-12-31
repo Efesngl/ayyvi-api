@@ -9,9 +9,7 @@ Users can start or sign a petitions in any topics they want.
 
 ## Features that im currently working on
 
-- An admin panel will be added.
 - Api authentication will be added.
-- Donations will be added.
 
 
   
