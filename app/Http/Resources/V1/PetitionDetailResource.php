@@ -24,9 +24,9 @@ class PetitionDetailResource extends JsonResource
             "userPP"=>$this->user_pp,
             "creator"=>$this->creator,
             "totalSigned"=>$this->total_signed,
-            "isSucceded"=>$this->is_succeded,
             "isSigned"=>$this->isSigned,
-            "doesBelongToUser"=>$this->does_belong_to_user
+            "doesBelongToUser"=>$this->does_belong_to_user,
+            "status"=>$this->status
         ];
     }
 }

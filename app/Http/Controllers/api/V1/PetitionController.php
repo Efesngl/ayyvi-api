@@ -26,10 +26,7 @@ class PetitionController extends Controller
             ->selectRaw("concat(left(petition_content,67),'...') as 'petition_content'")
             ->selectRaw("concat(users.firstname,' ',users.lastname) as creator")
             ->selectRaw("count(signed_petitions.petition_id) as 'total_signed'")
-            ->whereNot(function (Builder $b) {
-                $b->where("is_succeded", 0);
-            })
-            ->where("is_success_allowed",1)
+            ->where("status",3)
             ->groupByRaw("petitions.ID")
             ->offset($offset)
             ->limit(5)
@@ -161,7 +158,7 @@ class PetitionController extends Controller
         if ($type == "detail") {
             $user_id = $req->query("user");
             $petition = petitions::join("users", "users.ID", "=", "petitions.creator")
-                ->select("petitions.ID", "is_succeded", "petition_header", "petition_image", "petition_content", "created_at", "target_sign", "user_pp")
+                ->select("petitions.ID", "status", "petition_header", "petition_image", "petition_content", "created_at", "target_sign", "user_pp")
                 ->selectRaw("concat(users.firstname,' ',users.lastname) as 'creator'")
                 ->selectRaw("(select count(*) from signed_petitions where petition_id={$id}) as 'total_signed'")
                 ->selectRaw("if((select count(*) from signed_petitions where user_id={$req->query('user')} and petition_id={$id})=1,1,0) as isSigned")
@@ -296,28 +293,30 @@ class PetitionController extends Controller
             "petition_content" => $p["petitionContent"],
             "petition_topic" => $p["petitionTopic"],
             "target_sign" => $p["targetSign"],
-            "is_succeded" => $p["isSucceded"],
+            "status" => $p["statusChanged"],
         ];
         if (isset($p["petitionImage"]["url"])) {
             $image = $p["petitionImage"]["url"];
             $image = preg_replace('#data:image/[^;]+;base64,#', '', $image);
             $img_data = base64_decode($image);
             $src = imagecreatefromstring($img_data);
-            $image_path = base_path("frontend/public/assets/img/");
+            $image_path = public_path("storage/petition_images/");
             $maxExecTime = time() + 5;
             $isFileNameUnique = false;
             $fileName = "";
             while (time() !== $maxExecTime) {
-                $fileName = "{$p['ID']}_" . uniqid(mt_rand(), true) . ".{$p["petitionImage"]["extension"]}";
+                $fileName = "{$p['ID']}_" . uniqid(mt_rand(), true) . ".webp";
                 if (!file_exists($image_path . $fileName)) {
                     $isFileNameUnique = true;
                     break;
                 }
             }
             if ($isFileNameUnique) {
-                if (imagejpeg($src, $image_path . $fileName)) {
+                if (imagewebp($src, $image_path . $fileName)) {
                     imagedestroy($src);
-                    $petition["petition_image"] = "/assets/img/{$fileName}";
+                    $pImage=Petitions::where("ID",$p["ID"])->select("petition_image")->first();
+                    unlink(public_path($pImage->petition_image));
+                    $petition["petition_image"] = "/storage/petition_images/{$fileName}";
                 }
             } else {
                 return response()->json(["error" => "Resim zaten mevcut"], 400);

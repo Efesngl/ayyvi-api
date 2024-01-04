@@ -11,5 +11,5 @@ class Petitions extends Model
     protected $primaryKey="ID";
     public $incrementing =true;
     public $timestamps =false;
-    protected $fillable=["petition_header","petition_content","petition_topic","petition_image","creator","target_sign","created_at"];
+    protected $fillable=["petition_header","status","petition_content","petition_topic","petition_image","creator","target_sign","created_at"];
 }
