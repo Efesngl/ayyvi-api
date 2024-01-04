@@ -29,6 +29,8 @@ Route::prefix("/v1")->group(function () {
     Route::post("login", [UserController::class,"login"]);
     Route::post("register",[UserController::class,"register"]);
     Route::prefix("petitions")->group(function(){
+        Route::get("getpopularpetitions",[PetitionController::class,"get_popular_petitions"]);
+        Route::get("getsuccededpetitions",[PetitionController::class,"get_succeded_petitions"]);
         Route::get("browsepetitions",[PetitionController::class,"browse_petitions"]);
         Route::get("petitiondetail/{id}",[PetitionController::class,"petition_detail"]);
         Route::post("petitionsignreasons",[PetitionController::class,"get_petition_sign_reasons"]);
@@ -64,4 +66,8 @@ Route::prefix("/v1")->group(function () {
     });
     Route::post("donate",[DonationController::class,"make_donate"]);
     Route::get("donate",[DonationController::class,"get_donations"]);
+    Route::get("getsocials",function(){
+        $socials=DB::table("social_media")->get();
+        return response()->json($socials);
+    });
 });
