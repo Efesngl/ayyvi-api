@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PetiteEditResource;
+use App\Http\Resources\V1\PetitionEditResource;
 use App\Http\Resources\V1\PetitionDetailResource;
 use App\Http\Resources\V1\PetitionResource;
 use App\Models\Petitions;
@@ -16,80 +16,46 @@ use Illuminate\Support\Facades\Storage;
 
 class PetitionController extends Controller
 {
-    //
-    public function get_succeded_petitions(Request $req)
+    public function browse_petitions(Request $req)
     {
-        $offset=$req->query("offset");
-        $petitions = petitions::join("users", "petitions.creator", "=", "users.ID")
-            ->leftJoin("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
-            ->select("petitions.ID", "petitions.petition_header", "created_at", "petition_image", "user_pp", "target_sign")
-            ->selectRaw("concat(left(petition_content,67),'...') as 'petition_content'")
-            ->selectRaw("concat(users.firstname,' ',users.lastname) as creator")
-            ->selectRaw("count(signed_petitions.petition_id) as 'total_signed'")
-            ->whereNot(function (Builder $b) {
-                $b->where("is_succeded", 0);
-            })
-            ->where("is_success_allowed",1)
-            ->groupByRaw("petitions.ID")
-            ->offset($offset)
-            ->limit(5)
-            ->get();
 
-
-        return response()->json(petitionResource::collection($petitions));
-    }
-    public function get_popular_petitions(Request $req)
-    {
-        $offset=$req->query("offset") ?? 0;
-        $popular_petitions = petitions::join("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
-            ->join("users", "users.ID", "=", "petitions.creator")
-            ->select("petitions.ID", "petitions.petition_header", "created_at", "petition_image", "user_pp", "target_sign")
-            ->selectRaw("concat(left(petition_content,67),'...') as 'petition_content'")
-            ->selectRaw("concat(users.firstname,' ',users.lastname) as creator")
-            ->selectRaw("count(signed_petitions.petition_id) as 'total_signed'")
-            ->where("is_succeded", 0)
-            ->groupByRaw("signed_petitions.petition_id")
-            ->orderByRaw("count(*) desc,signed_petitions.signed_at desc")
-            ->havingRaw("count(*)>10")
-            ->offset($offset)
-            ->limit(5)
-            ->get();
-        return response()->json(petitionResource::collection($popular_petitions));
-    }
-    public function get_newest_petitions(Request $req)
-    {
-        $offset=$req->query("offset");
-        $petitions = petitions::join("users", "users.ID", "=", "petitions.creator")
-            ->join("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
-            ->select("petitions.ID", "petition_header", "created_at", "petition_image", "target_sign")
-            ->selectRaw("concat(users.firstname,' ',users.lastname) as 'creator'")
-            ->selectRaw("concat(left(petition_content,97),'...') as 'petition_content'")
-            ->selectRaw("count(signed_petitions.petition_id) as 'total_signed'")
-            ->groupByRaw("signed_petitions.petition_id")
-            ->havingRaw("count(signed_petitions.petition_id) > 10")
-            ->where("petitions.is_succeded", 0)
-            ->offset($offset)
-            ->limit(5)
-            ->get();
-        return response()->json(petitionResource::collection($petitions));
-    }
-    public function browse_petitions(Request $req,$cat)
-    {
-        switch ($cat) {
-            case 'newest':
-                # code...
-                return  $this->get_newest_petitions($req);
-                break;
-            case "popular":
-                return $this->get_popular_petitions($req);
-                break;
-            case "succeded":
-                return $this->get_succeded_petitions($req);
-                break;
-            default:
-                # code...
-                break;
-        }
+        $page=$req->query("page")-1;
+        $limit=$req->query("offset");
+        $offset=$limit*$page;
+        $p = Petitions::join("users", "users.ID", "=", "petitions.creator")
+        ->join("signed_petitions", "signed_petitions.petition_id", "=", "petitions.ID")
+        ->select("petitions.ID", "petition_header", "created_at", "petition_image", "target_sign")
+        ->selectRaw("concat(users.firstname,' ',users.lastname) as 'creator'")
+        ->selectRaw("concat(left(petition_content,97),'...') as 'petition_content'")
+        ->selectRaw("count(signed_petitions.petition_id) as 'total_signed'")
+        ->when($req->has("s"),function(Builder $q) use ($req){
+            $q->where("petition_header","like","%".$req->query("s")."%");
+        })
+        ->when($req->has("ty"),function(Builder $q) use ($req){
+            if($req->query("ty")==1){
+                $q->whereNot(function (Builder $query) {
+                    $query->where("status",3);
+                });
+                $q->orderByRaw("count(*) desc,signed_petitions.signed_at desc");
+            }
+            else if($req->query("ty")==2){
+                $q->whereNot(function (Builder $query) {
+                    $query->where("status",3);
+                });
+                $q->orderBy("petitions.created_at","desc");
+            }else{
+                $q->where("petitions.status","=","3");
+            }
+        })
+        ->when($req->has("t"),function(Builder $q) use ($req){
+            $q->whereIn("petition_topic",explode(",",$req->query("t")));
+        })
+        ->groupByRaw("signed_petitions.petition_id")
+        ->havingRaw("count(signed_petitions.petition_id) > 10");
+        return response()->json([
+            "totalPetitions"=>$p->count(),
+            "petitions"=>PetitionResource::collection($p->limit($limit)->offset($offset)->get()),
+        ]);
     }
     public function create_petition(Request $req)
     {
@@ -154,7 +120,7 @@ class PetitionController extends Controller
                 ->selectRaw("(select count(*) from signed_petitions where petition_id={$id}) as 'total_signed'")
                 ->get();
             return response()->json([
-                "petition" => PetiteEditResource::collection($petition)
+                "petition" => PetitionEditResource::collection($petition)
             ]);
         }
     }

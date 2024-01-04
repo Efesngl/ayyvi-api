@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\api\v1\admin\DashboardController;
+use App\Http\Controllers\api\v1\admin\DonationController as AdminDonationController;
+use App\Http\Controllers\api\v1\admin\PetitionController as AdminPetitionController;
+use App\Http\Controllers\api\v1\admin\SocialController;
+use App\Http\Controllers\api\v1\admin\TopicController;
+use App\Http\Controllers\api\v1\admin\UserController as AdminUserController;
 use App\Http\Controllers\api\V1\DonationController;
 use App\Http\Controllers\api\V1\PetitionController;
 use Illuminate\Http\Request;
@@ -23,9 +29,7 @@ Route::prefix("/v1")->group(function () {
     Route::post("login", [UserController::class,"login"]);
     Route::post("register",[UserController::class,"register"]);
     Route::prefix("petitions")->group(function(){
-        Route::get("getpopularpetitions",[PetitionController::class,"get_popular_petitions"]);
-        Route::get("getsuccededpetitions",[PetitionController::class,"get_succeded_petitions"]);
-        Route::get("browsepetitions/{cat}",[PetitionController::class,"browse_petitions"]);
+        Route::get("browsepetitions",[PetitionController::class,"browse_petitions"]);
         Route::get("petitiondetail/{id}",[PetitionController::class,"petition_detail"]);
         Route::post("petitionsignreasons",[PetitionController::class,"get_petition_sign_reasons"]);
         Route::post("newpetition",[PetitionController::class,"create_petition"]);
@@ -47,6 +51,16 @@ Route::prefix("/v1")->group(function () {
         return response()->json([
             "topics"=>DB::table("topics")->get()
         ]);
+    });
+    Route::prefix("admin")->group(function(){
+        Route::resource("petitions",AdminPetitionController::class);
+        Route::resource("users",AdminUserController::class);
+        Route::resource("donations",AdminDonationController::class);
+        Route::resource("topics",TopicController::class);
+        Route::resource("socials",SocialController::class);
+        Route::prefix("dashboard")->group(function(){
+            Route::get("getdashboard",[DashboardController::class,"index"]);
+        });
     });
     Route::post("donate",[DonationController::class,"make_donate"]);
     Route::get("donate",[DonationController::class,"get_donations"]);

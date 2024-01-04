@@ -15,11 +15,11 @@ class PetitionSeeder extends Seeder
     public function run(): void
     {
         //
-        for($i=0;$i<1000000;$i++){
+        for($i=0;$i<20;$i++){
             $id=fake()->numberBetween(1,104);
             $arr=[
                 "user_id"=>$id,
-                "petition_id"=>49
+                "petition_id"=>83
             ];
             $user=DB::table("signed_petitions");
             if($user->where($arr)->doesntExist()){
